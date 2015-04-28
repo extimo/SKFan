@@ -1,0 +1,8 @@
+{
+	"name": "skfan",
+	"version": "0.1.0",
+	"desacription": "Shopkeeper Fan, an online food order system",
+	"dependencies": {
+		"express": "~"
+	}
+}
