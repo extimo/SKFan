@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var account = require('../lib/account');
+var account = require('./account');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
