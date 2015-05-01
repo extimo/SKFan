@@ -1,4 +1,5 @@
 var User = require('../lib/user');
+var qs = require('qs');
 
 exports.signup = function(req, res, next) {
 	var data = req.body.user;
@@ -28,7 +29,6 @@ exports.signup = function(req, res, next) {
 
 exports.signin = function(req, res, next) {
 	var data = req.body.user;
-			console.log(req.body);
 	User.auth(data.email, data.password, function(err, user){
 		if(err){
 			console.log(err);

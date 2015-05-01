@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var account = require('./account');
+var multipart = require('connect-multiparty');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,6 +21,6 @@ router.get('/signup', function(req, res, next) {
 });
 
 /* POST signup data. */
-router.post('/signup', account.signup);
+router.post('/signup', multipart(), account.signup);
 
 module.exports = router;

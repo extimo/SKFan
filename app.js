@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var messages = require('./lib/messages');
 var session = require('express-session');
-var busboy = require('express-busboy');
 var routes = require('./routes/index');
 var app = express();
 
@@ -19,14 +18,13 @@ app.set('portraits', path.join(__dirname, 'public/portraits'));
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser('SKFan v0.0.1'));
-busboy.extend(app, {upload: true});
 app.use(session({
   secret: 'SKFan v0.0.1',
   resave:false,
   saveUninitialized: true,
-  cookie: {secure: true}
+  cookie: {secure: false}
 }));
 app.use(messages);
 app.use(express.static(path.join(__dirname, 'public')));

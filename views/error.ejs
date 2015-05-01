@@ -1,7 +1,3 @@
-<% if(locals.messages) { %>
-	<% messages.forEach(function(message){ %>
-		<p class="text-<%= message.type %>"><%= message.string %></p>
-	
-	<% }) %>
-	<% removeMessages() %>
-<% } %>
+<h1><%= message %></h1>
+<h2><%= error.status %></h2>
+<pre><%= error.stack %></pre>
