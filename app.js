@@ -6,13 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var messages = require('./lib/messages');
 var session = require('express-session');
-var routes = require('./routes/index');
+var main = require('./routes/main');
+var port = require('./routes/port');
+var account = require('./routes/account');
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('portraits', path.join(__dirname, 'public/portraits'));
+app.set('upload', path.join(__dirname, 'upload'));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -29,7 +31,9 @@ app.use(session({
 app.use(messages);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/port', port);
+app.use('/account', account);
+app.use('/', main);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

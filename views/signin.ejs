@@ -8,7 +8,7 @@
     <title>Welcome to SKFan !</title>
 
     <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -16,8 +16,8 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link href="assets/cover.css" rel="stylesheet">
-    <link href="assets/signin.css" rel="stylesheet">
+    <link href="/assets/cover.css" rel="stylesheet">
+    <link href="/assets/signin.css" rel="stylesheet">
   </head>
   
   <body>
@@ -39,10 +39,10 @@
 				</div>
 
 				<div class="inner cover">
-					<% include messages %>
-					<form class="form-signin" method="post" action="/signin">
-						<p class="lead">Welcome to SKFan Intelligent food ordering system</p>
+					<p class="lead">Welcome to SKFan Intelligent food ordering system</p>
+					<form class="form-signin" method="post" action="signin">
 						<h2 class="form-signin-heading">Please sign in</h2>
+						<% include messages %>
 						<label for="email" class="sr-only">Email address</label>
 						<div class="input-group">
 							<input type="text" class="form-control" id="email" name="user[email]" placeholder="Your email" required autofocus>
@@ -51,7 +51,7 @@
 						<label for="password" class="sr-only">Password</label>
 						<input type="password" id="password" name="user[password]" class="form-control" placeholder="Password" required>
 						<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-						<br><a class="" href="signup">Sign up</a> | <a class="" href="#">Look around</a>
+						<br><a class="" href="signup">Sign up</a> | <a class="" href="/random">Look around</a>
 
 					</form>
 				</div>
@@ -65,8 +65,8 @@
 		</div>
 		</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="vendor/jquery-1.11.2.min.js"></script>
+    <script src="/vendor/jquery-1.11.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

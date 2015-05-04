@@ -1,0 +1,22 @@
+
+      </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="vendor/jquery-1.11.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      // set currently actived nav
+      $("#nav-<%= current %>").addClass("active");
+      
+      // change rate score to image
+      $(".rate").each(function(i,e){
+      	var c = +($(e).text());
+      	var h = '';
+      	for(var i = 0;i < c;i++)
+      		h = h + "<img src='images/star.jpeg' class='rate-star'>";
+      	$(e).html(h);
+      });
+    </script>
+  </body>
+</html>

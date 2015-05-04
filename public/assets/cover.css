@@ -161,3 +161,11 @@ body {
     width: 700px;
   }
 }
+
+button{
+  color: black;
+}
+
+.left-text{
+	text-align: left!important;
+}
