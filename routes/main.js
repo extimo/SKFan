@@ -3,6 +3,7 @@ var router = express.Router();
 var account = require('./account');
 var multipart = require('connect-multiparty');
 var uploadDir = require('path').join(__dirname, '../upload');
+var auth = require('../lib/middleware/auth');
 
 var demo_dishes = [];
 for(var i = 0;i < 12;i++)
@@ -20,15 +21,10 @@ router.get('/random', function(req, res, next) {
 });
 
 /* GET home page. */
-router.get('/:p', function(req, res, next) {
+router.get('/:p', auth('user', '/account/signin'), function(req, res, next) {
 	var page = req.params.p;
 	
-	// make sure user has signed in
-	if(req.session.wwid){
-		res.render(page, {wwid: req.session.wwid, current: page, dishes: demo_dishes});
-	}else{
-		res.redirect('/account/signin');
-	}
+	res.render(page, {wwid: req.session.wwid, current: page, dishes: demo_dishes});
 });
 
 module.exports = router;

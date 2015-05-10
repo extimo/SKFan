@@ -12,7 +12,7 @@ var gm = require('gm');
 
 /* GET /account */
 router.get('/', function(req, res, next) {
-	if(req.session.wwid){
+	if(req.session.auth['authed']){
 		res.redirect('/');
 	}else{
 		res.redirect('/account/signin');
@@ -112,8 +112,18 @@ function saveUser(req, res, next, user){
 			console.log(err);
 			return next(err);
 		}
-		req.session.wwid = user.wwid;
-		res.redirect('/');
+
+		User.getAuth(user.wwid, function(err, auth){
+			if(err){
+				console.log(err);
+				return next(err);
+			}
+
+			req.session.auth = auth;
+			req.session.auth['authed'] = true;
+			req.session.wwid = user.wwid;
+			res.redirect('/');
+		});
 	});
 }
 
@@ -127,8 +137,17 @@ function signin(){
 			}
 		
 			if(user){
-				req.session.wwid = user.wwid;
-				res.redirect('/');
+				User.getAuth(user.wwid, function(err, auth){
+					if(err){
+						console.log(err);
+						return next(err);
+					}
+
+					req.session.auth = auth;
+					req.session.auth['authed'] = true;
+					req.session.wwid = user.wwid;
+					res.redirect('/');
+				});
 			}else{
 				res.error("Sorry! invalid credentials!");
 				res.redirect('back');
@@ -141,6 +160,7 @@ function signout(){
 	return function(req, res, next) {
 		req.session.destroy(function(err){
 			if(err) throw err;
+			
 			res.redirect('/');
 		});
 	};

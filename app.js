@@ -9,21 +9,24 @@ var session = require('express-session');
 var main = require('./routes/main');
 var port = require('./routes/port');
 var account = require('./routes/account');
+var dish = require('./routes/dish');
+var settings = require('./settings');
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('upload', path.join(__dirname, 'upload'));
+app.set('settings-port', settings.port);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser('SKFan v0.0.1'));
+app.use(cookieParser(settings.cookieSecret));
 app.use(session({
-  secret: 'SKFan v0.0.1',
+  secret: settings.cookieSecret,
   resave:false,
   saveUninitialized: true,
   cookie: {secure: false}
@@ -31,6 +34,7 @@ app.use(session({
 app.use(messages);
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/dish', dish);
 app.use('/port', port);
 app.use('/account', account);
 app.use('/', main);
