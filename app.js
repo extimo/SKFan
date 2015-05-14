@@ -4,12 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var messages = require('./lib/messages');
+var messages = require('./lib/middleware/messages');
 var session = require('express-session');
 var main = require('./routes/main');
+var admin = require('./routes/admin');
 var port = require('./routes/port');
 var account = require('./routes/account');
 var dish = require('./routes/dish');
+var auth = require('./lib/middleware/auth');
 var settings = require('./settings');
 var app = express();
 
@@ -34,6 +36,7 @@ app.use(session({
 app.use(messages);
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/admin', auth('admin', '/account/signin?next=/admin'), admin);
 app.use('/dish', dish);
 app.use('/port', port);
 app.use('/account', account);

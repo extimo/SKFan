@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>饭掌柜系统</title>
+	<meta charset="utf-8">
+	<meta name="author" content="pixelhint.com">
+	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+
+<style type="text/css">
+
+</style>
+<body>
+
+		<div class="dishes" id="dishes">
+
+		<% dishes.forEach(function(dish){ %>
+                <article id="<%= dish.id %>">
+		<div><input id="check1" type="checkbox" name="checkbox" class="check"></div>
+                    <div class="dishe_img">
+                        <a href="#">
+                        	<img src="/images/<%= dish.image%>" alt="" title="" onclick="del()"/>
+                        </a>                  
+                    </div>
+                    <div class="dish_info">
+                        <a href="#"><h2><%= dish.name %></h2></a>
+                        <h3>price: <%= dish.price %></h3>
+                    </div>
+                    <ul class="rating">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li class="no-star"></li>
+                    </ul>
+                </article>
+                <% }) %>
+				
+				<!--<article id="1">
+					<div><input id="cb7" type="checkbox" name="checkbox" class="check"></div>
+					<div class="dishe_img">
+						<a href="#"><img src="img/dish1.jpg" alt="" title="" id="img1" onclick="onSelect()"/></a>
+					</div>
+					
+					<div class="dish_info">
+						<a href="#"><h2>Goden Flloen</h2></a>
+						<h3>$24</h3>
+					</div>
+					<ul class="rating">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li class="no-star"></li>
+					</ul>
+				</article>
+				
+				<article id="2">
+					<div><input id="cb8" type="checkbox" name="checkbox" class="check"></div>
+					<div class="dishe_img">
+						<a href="#"><img src="img/dish1.jpg" alt="" title="" id="img2" onclick="onSeclect()"/></a>
+					</div>
+					
+					<div class="dish_info">
+						<a href="#"><h2>Goden Flloen</h2></a>
+						<h3>$24</h3>
+					</div>
+					<ul class="rating">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li class="no-star"></li>
+					</ul>
+				</article>-->
+							
+				<button class="btn" id="delete" onclick="addAll()">一建增加</button>
+			
+		</div>
+
+	<script src="/assets/js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+
+		  $("#delete").click(function() {
+			
+			var c = new Array();
+        	var x = document.getElementsByName("checkbox");
+
+        	for(i=0;i<x.length;i++){
+        		if(x[i].checked){
+        		 c.push(x[i].parentNode.parentNode.attributes['id'].value);
+        		}
+        	}
+/*
+        	for(i=0;i<c.length;i++){
+        		alert(c[i]);
+        	}*/
+
+
+        	$.ajax({
+	            url:'/dish/set',
+	            type:'POST',
+	            dataType:'json',
+	            data:{
+	                ids: c
+	            },
+	            success: function(data){
+            		alert("菜品添加成功！");
+            	},
+        	});
+    	});
+	});
+
+	</script>
+	
+
+</body>
+</html>

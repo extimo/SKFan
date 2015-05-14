@@ -1,3 +1,4 @@
+var Dish = require('../lib/dish');
 var express = require('express');
 var router = express.Router();
 var account = require('./account');

@@ -7,21 +7,23 @@ var auth = require('../lib/middleware/auth');
 /* route /dish/get to get */
 router.use('/get', get);
 
+// router.use(auth('kitchen'));
+
+/* set ids to currently available */
+router.post('/set', function(req, res, next){
+	Dish.addToCurrent(req.body.ids, function(err){
+		returnStatus(res, err)
+	})
+});
+
+/* remove ids from currently available */
+router.get('/unset', function(req, res, next){
+	Dish.removeFromCurrent(req.body.ids, function(err){
+		returnStatus(res, err)
+	})
+});
+
 router.use(auth('admin'));
-
-/* set #id to currently available */
-router.get('/set/:id', function(req, res, next){
-	Dish.addToCurrent(req.params.id, function(err){
-		returnStatus(res, err)
-	})
-});
-
-/* remove #id from currently available */
-router.get('/unset/:id', function(req, res, next){
-	Dish.removeFromCurrent(req.params.id, function(err){
-		returnStatus(res, err)
-	})
-});
 
 router.post('/add', function(req, res, next){
 	var dish = new Dish(req.body.dish);
@@ -37,8 +39,8 @@ router.get('/remove/:id', function(req, res, next){
 });
 
 router.get('/find/:name', function(req, res, next){
-	Dish.find(req.params.name, function(err, id){
-		returnStatus(res, err, dish);
+	Dish.find(req.params.name, function(err, dish){
+		returnStatus(res, err, {target: id});
 	});
 });
 
@@ -57,7 +59,7 @@ var returnStatus = function(res, err, ex){
 }
 
 var extend = function(override, des){
-	var src = arguments.slice(2);
+	var src = Array.prototype.slice.call(arguments, 2);
 	
 	src.forEach(function(arg){
 		for(key in arg){

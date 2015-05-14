@@ -1,8 +1,9 @@
 <dishes>
 <% dishes.forEach(function(dish){ %>
 	<dish>
-	<% for(key in dish) { %>
+	<% for(var key in dish) { %>
 		<<%= key %>><%= dish[key] %></<%= key %>>
+	<% } %>
 	</dish>
-<% } %>
+<% }); %>
 </dishes>

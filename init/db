@@ -1,0 +1,96 @@
+var redis = require('redis');
+var db = redis.createClient();
+var async = require('async');
+var Dish = require('../lib/dish');
+
+async.series([
+	// user db init
+	function(fn){
+		db.SELECT(0,function(){
+			db.FLUSHDB();
+			async.series([
+				// set auth types
+				function(fn){
+					var user_auth = {};
+					user_auth['user'] = 'true';
+					db.HMSET('user:auth:user', user_auth, fn);
+				},
+				function(fn){
+					var fore_auth = {};
+					fore_auth['foreground'] = 'true';
+					db.HMSET('user:auth:foreground', fore_auth, fn);
+				},
+				function(fn){
+					var kitchen_auth = {};
+					kitchen_auth['user'] = 'true';
+					kitchen_auth['kitchen'] = 'true';
+					db.HMSET('user:auth:kitchen', kitchen_auth, fn);
+				},
+				function(fn){
+					var admin_auth = {};
+					admin_auth['user'] = 'true';
+					admin_auth['kitchen'] = 'true';
+					admin_auth['admin'] = 'true';
+					db.HMSET('user:auth:admin', admin_auth, fn);
+				},
+				// add initial admin account (pass:123123)
+				function(fn){
+					db.HSET('email:wwid', 'skfan.admin', '66666666', fn);
+				},
+				function(fn){
+					db.SADD('user:pool', '66666666', fn);
+				},
+				function(fn){
+					var admin = {wwid: 66666666, 
+								nick: 'admin', 
+								pass: '$2a$10$maLpiCSAOJiygi4Qn7SlEuCE0LJqlS0WgVPVsiI1nhKR4TIspELIO',
+								email: 'skfan.admin',
+								port: 'default',
+								type: 'admin'}
+					
+					db.HMSET('user:66666666', admin, fn);
+				}],
+				function(err, r){
+					if(err){
+						console.log(err);
+						fn(err);
+					}
+					else {
+						console.log('db1 init');
+						fn();
+					}
+				}
+			);
+		});
+	},
+	// dish db init
+	function(fn){
+		db.SELECT(1, function(){
+			db.FLUSHDB();
+	
+			var dish = {name: '红烧肉', ename:'pork stewed in soy sauce', type: 0, price: 15, rate: 3, image: 'default'};
+			for(var i = 0;i < 20;i++)
+				new Dish(dish).save(function(err){
+					if(err) {
+						console.log(err);
+						return fn(err);
+					}
+				});
+			
+			console.log('db2 init');
+			fn();
+		});
+	},
+	// order db init
+	function(fn){
+		db.SELECT(2, function(){
+			db.FLUSHDB();
+	
+		});
+	}
+],
+function(err, r){
+	if(err) console.log(err);
+	
+	else console.log('all finished');
+});

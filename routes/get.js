@@ -16,7 +16,7 @@ router.get('/cur/:type', function(req, res, next) {
 });
 
 /* GET all dishes of #type. */
-router.get('/all/:type', auth('admin'), function(req, res, next) {
+router.get('/all/:type', function(req, res, next) {
 	var type = req.params.type;
 	Dish.getType(type, function(err, dishes){
 		if(err){
@@ -30,7 +30,7 @@ router.get('/all/:type', auth('admin'), function(req, res, next) {
 module.exports = router;
 
 var returnDishes = function(res, dishes){
-	res.formate({
+	res.format({
 		json: function(){
 			res.send(dishes);
 		},

@@ -10,17 +10,28 @@ var join = path.join;
 var crypto = require('crypto');
 var gm = require('gm');
 
-/* GET /account */
-router.get('/', function(req, res, next) {
-	if(req.session.auth['authed']){
-		res.redirect('/');
-	}else{
-		res.redirect('/account/signin');
+/* if already signed in, redirect */
+router.use(function(req, res, next) {
+	if(req.session.auth && req.session.auth['authed']){
+		if(req.session.next){
+			var url = req.session.next;
+			req.session.next = null;
+			res.redirect(url);
+		}
+		else{		
+			res.redirect('/');
+		}
+	}
+	else{
+		next();
 	}
 });
 
 /* GET signin page. */
 router.get('/signin', function(req, res, next) {
+	if(req.query.next){
+		req.session.next = req.query.next;
+	}
 	res.render('signin');
 });
 
@@ -39,7 +50,15 @@ router.post('/signup', multipart({uploadDir: uploadDir}), signup(uploadDir));
 /* GET signout page. */
 router.get('/signout', signout());
 
+/* GET other pages that does not exist */
+router.use(function(req, res, next) {
+	res.redirect('/account/signin');
+});
+
+
 module.exports = router;
+
+/********************************************************/
 
 function signup(dir){
 	return function(req, res, next) {
@@ -95,10 +114,12 @@ function signup(dir){
 						
 						user.port = name;
 						saveUser(req, res, next, user);
+						authedUser(user.wwid, req, res, next);
 					});	
 				}else{
 					fs.unlinkSync(req.files.user.portrait.path);
 					saveUser(req, res, next, user);		
+					authedUser(user.wwid, req, res, next);
 				}
 			}
 		});
@@ -106,24 +127,36 @@ function signup(dir){
 }
 
 function saveUser(req, res, next, user){
+	// grant as user first
+	user.type = 'user';
+
 	// save user to db
 	user.save(function(err){
 		if (err){
 			console.log(err);
 			return next(err);
 		}
+	});
+}
 
-		User.getAuth(user.wwid, function(err, auth){
-			if(err){
-				console.log(err);
-				return next(err);
-			}
+function authedUser(wwid, req, res, next){
+	User.getAuth(wwid, function(err, auth){
+		if(err){
+			console.log(err);
+			return next(err);
+		}
 
-			req.session.auth = auth;
-			req.session.auth['authed'] = true;
-			req.session.wwid = user.wwid;
+		req.session.auth = auth;
+		req.session.auth['authed'] = true;
+		req.session.wwid = wwid;
+		if(req.session.next){
+			var url = req.session.next;
+			req.session.next = null;
+			res.redirect(url);
+		}
+		else{
 			res.redirect('/');
-		});
+		}
 	});
 }
 
@@ -137,17 +170,7 @@ function signin(){
 			}
 		
 			if(user){
-				User.getAuth(user.wwid, function(err, auth){
-					if(err){
-						console.log(err);
-						return next(err);
-					}
-
-					req.session.auth = auth;
-					req.session.auth['authed'] = true;
-					req.session.wwid = user.wwid;
-					res.redirect('/');
-				});
+				authedUser(user.wwid, req, res, next);
 			}else{
 				res.error("Sorry! invalid credentials!");
 				res.redirect('back');
@@ -161,7 +184,12 @@ function signout(){
 		req.session.destroy(function(err){
 			if(err) throw err;
 			
-			res.redirect('/');
+			if(req.query.next){
+				res.redirect(req.query.next);
+			}
+			else{
+				res.redirect('/');
+			}
 		});
 	};
 }
