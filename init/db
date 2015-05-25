@@ -2,28 +2,32 @@ var redis = require('redis');
 var db = redis.createClient();
 var async = require('async');
 var Dish = require('../lib/dish');
+var User = require('../lib/user');
 
+db.FLUSHALL();
 async.series([
 	// user db init
 	function(fn){
 		db.SELECT(0,function(){
-			db.FLUSHDB();
 			async.series([
 				// set auth types
 				function(fn){
 					var user_auth = {};
 					user_auth['user'] = 'true';
+					user_auth['home'] = '/';
 					db.HMSET('user:auth:user', user_auth, fn);
 				},
 				function(fn){
 					var fore_auth = {};
 					fore_auth['foreground'] = 'true';
+					fore_auth['home'] = '/';
 					db.HMSET('user:auth:foreground', fore_auth, fn);
 				},
 				function(fn){
 					var kitchen_auth = {};
 					kitchen_auth['user'] = 'true';
 					kitchen_auth['kitchen'] = 'true';
+					kitchen_auth['home'] = '/kitchen';
 					db.HMSET('user:auth:kitchen', kitchen_auth, fn);
 				},
 				function(fn){
@@ -31,24 +35,42 @@ async.series([
 					admin_auth['user'] = 'true';
 					admin_auth['kitchen'] = 'true';
 					admin_auth['admin'] = 'true';
+					admin_auth['home'] = '/admin';
 					db.HMSET('user:auth:admin', admin_auth, fn);
 				},
-				// add initial admin account (pass:123123)
+				// add initial admin account
 				function(fn){
-					db.HSET('email:wwid', 'skfan.admin', '66666666', fn);
+					new User({
+						nick: 'admin', 
+						wwid: 66666666, 
+						pass: 'q', 
+						email: 'aa', 
+						port: 'default', 
+						type: 'admin'
+					}).save(fn);
+				},
+				// add initial kichen account
+				function(fn){
+					new User({
+						nick: 'kitchen0', 
+						wwid: 66666667, 
+						pass: 'q', 
+						email: 'kk', 
+						port: 'default', 
+						type: 'kitchen', 
+						kit: '0'
+					}).save(fn);
 				},
 				function(fn){
-					db.SADD('user:pool', '66666666', fn);
-				},
-				function(fn){
-					var admin = {wwid: 66666666, 
-								nick: 'admin', 
-								pass: '$2a$10$maLpiCSAOJiygi4Qn7SlEuCE0LJqlS0WgVPVsiI1nhKR4TIspELIO',
-								email: 'skfan.admin',
-								port: 'default',
-								type: 'admin'}
-					
-					db.HMSET('user:66666666', admin, fn);
+					new User({
+						nick: 'kitchen1', 
+						wwid: 66666668, 
+						pass: 'q', 
+						email: 'kkk', 
+						port: 'default', 
+						type: 'kitchen', 
+						kit: '1'
+					}).save(fn);
 				}],
 				function(err, r){
 					if(err){
@@ -66,26 +88,212 @@ async.series([
 	// dish db init
 	function(fn){
 		db.SELECT(1, function(){
-			db.FLUSHDB();
-	
-			var dish = {name: '红烧肉', ename:'pork stewed in soy sauce', type: 0, price: 15, rate: 3, image: 'default'};
-			for(var i = 0;i < 20;i++)
-				new Dish(dish).save(function(err){
-					if(err) {
-						console.log(err);
-						return fn(err);
+			var dishes = [
+				{
+					name: '烧鸡盘菜', 
+					ename:'chicken', 
+					type: 0, 
+					price: 15, 
+					rate: 4, 
+					image: 'd1.jpg'
+				},
+				{
+					name: '家常菜1', 
+					ename:'home style dish1', 
+					type: 0, 
+					price: 13, 
+					rate: 3, 
+					image: 'd2.jpg'
+				},
+				{
+					name: '可乐排骨', 
+					ename:'kele pai gu', 
+					type: 0, 
+					price: 16, 
+					rate: 3, 
+					image: 'd3.jpg'
+				},
+				{
+					name: '麻辣香锅虾', 
+					ename:'ma la xiang guo xia', 
+					type: 0, 
+					price: 17, 
+					rate: 3, 
+					image: 'd4.jpg'
+				},
+				{
+					name: '花开富贵牡丹鱼片', 
+					ename:'ma la xiang guo xia', 
+					type: 0, 
+					price: 19, 
+					rate: 3, 
+					image: 'd5.jpg'
+				},
+				{
+					name: '红油猪耳', 
+					ename:'hong you zhu er', 
+					type: 0, 
+					price: 19, 
+					rate: 3, 
+					image: 'd6.jpg'
+				},
+				{
+					name: '香辣时蔬烤金鳟鱼', 
+					ename:'xiang la shi shu kao jin zun yu', 
+					type: 0, 
+					price: 16, 
+					rate: 3, 
+					image: 'd7.jpg'
+				},
+				{
+					name: '瘦身麻婆茄子', 
+					ename:'shou shen ma po qie zi', 
+					type: 0, 
+					price: 13, 
+					rate: 4, 
+					image: 'd8.jpg'
+				},
+				{
+					name: '蒜泥白肉', 
+					ename:'suan ni bai rou', 
+					type: 0, 
+					price: 11, 
+					rate: 4, 
+					image: 'd9.jpg'
+				},
+				{
+					name: '杏仁瓦片', 
+					ename:'xin ren wa pian', 
+					type: 0, 
+					price: 11, 
+					rate: 4, 
+					image: 'd10.jpg'
+				},
+				{
+					name: '白菜炒年糕', 
+					ename:'bai cai chao nian gao', 
+					type: 0, 
+					price: 11, 
+					rate: 2, 
+					image: 'd11.jpg'
+				},
+				{
+					name: '焦糖玛奇朵', 
+					ename:'jiao tang ma qi duo', 
+					type: 1, 
+					price: 31, 
+					rate: 4, 
+					image: 'coffee.jpg'
+				},
+				{
+					name: '香草拿铁', 
+					ename:'xiang cao na tie', 
+					type: 1, 
+					price: 30, 
+					rate: 4, 
+					image: 'coffee.jpg'
+				},
+				{
+					name: '拿铁', 
+					ename:'na tie', 
+					type: 1, 
+					price: 27, 
+					rate: 5, 
+					image: 'coffee.jpg'
+				},
+				{
+					name: '卡布奇诺', 
+					ename:'ka bu ji nuo', 
+					type: 1, 
+					price: 27, 
+					rate: 4, 
+					image: 'coffee.jpg'
+				},
+				{
+					name: '摩卡', 
+					ename:'mo ka', 
+					type: 1, 
+					price: 30, 
+					rate: 4, 
+					image: 'coffee.jpg'
+				},
+				{
+					name: '美食咖啡', 
+					ename:'mei shi coffee', 
+					type: 1, 
+					price: 22, 
+					rate: 3, 
+					image: 'coffee.jpg'
+				},
+				{
+					name: '密斯朵咖啡', 
+					ename:'mi si duo coffee', 
+					type: 1, 
+					price: 20, 
+					rate: 3, 
+					image: 'coffee.jpg'
+				},
+				{
+					name: '新鲜调制咖啡', 
+					ename:'mi si duo coffee', 
+					type: 1, 
+					price: 17, 
+					rate: 2, 
+					image: 'coffee.jpg'
+				}
+			];
+			// demo dishes
+			async.series(dishes.map(
+				function(dish){
+					return function(fn){
+						new Dish(dish).save(fn);
+					};
+				}),
+				function(err){
+					if(err){
+						console.log(err)
 					}
-				});
-			
-			console.log('db2 init');
-			fn();
+					else{
+						console.log('db2 init');
+					}
+					fn(err);
+				}
+			);
 		});
 	},
 	// order db init
 	function(fn){
 		db.SELECT(2, function(){
-			db.FLUSHDB();
-	
+			async.series([
+				// order type vars init
+				function(fn){
+					// type 0 => dish
+					var type0 = {
+						name: '小炒',
+						ename: 'dish',
+						fetch: 'smart'
+					};
+					db.HMSET('order:typevar:0', type0, fn);
+				},
+				function(fn){
+					// type 1 => coffee
+					var type1 = {
+						name: '咖啡',
+						ename: 'coffee',
+						fetch: 'simple'
+					};
+					db.HMSET('order:typevar:1', type1, fn);
+				}],
+				function(err){
+					if(err){
+						console.log(err)
+					}
+					else{
+						console.log('db2 init');
+					}
+					fn(err);
+				}
+			);
 		});
 	}
 ],
@@ -93,4 +301,5 @@ function(err, r){
 	if(err) console.log(err);
 	
 	else console.log('all finished');
+	return;
 });

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
+<head>
 
         <meta charset="utf-8">
         <title>饭掌柜系统</title>
@@ -34,8 +34,9 @@
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-    </head>
-    <style type="text/css">
+</head>
+
+<style type="text/css">
     @import url('http://cdn.gbtags.com/twitter-bootstrap/3.2.0/css/bootstrap.css');
     @import url('http://cdn.gbtags.com/font-awesome/4.1.0/css/font-awesome.min.css');
 
@@ -45,8 +46,17 @@
           text-align: center;
           background-color: #475478;
         }
+
+    .dishes{
+        margin-top:-50px;
+    }
+
     .select{
-        margin-top: 150px;
+        text-align:center;
+        padding-left:40%;
+        padding-top: 30px;
+        height:1000px;
+        background-color:#673267;
     }
     #carten,#sellbar,#coffee{
         border: none;
@@ -72,20 +82,76 @@
         background-color: #c04564!important;
         color:#000!important;
     }
-    .carten-child{
+    #carten-child{
         
     }
 
+    #coffeebar-child{
+        text-align: left;
+        //padding-left: -50px;
+    }
+.btn{
+        border: none;
+        -webkit-transition:background-color 1s linear;
+        -moz-transition:background-color 1s linear;
+        -o-transition:background-color 1s linear;
+        background-color:#856479;
+        color:#FFF;
+        width: 150px;
+        height:50px;
+        border-radius:10px;
+        display:block;
+        margin-bottom:20px;
+}
+.sidebar{
+    width:200px;
+    height:100%;
+    position:fixed;
+    background-color:#434343;
+    text-align: center;
+    float:left;
+    padding-left: 20px;
+    padding-top: 50px;
+}
 
+.check{  
+    margin-left:200px!important;
+    margin-top: 0px!important;
+    display:none;
+}
 
+.btn-del,.btn-add{
+    width:80px;
+    height:50px;
+    background-color: #975657;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.btn-del:hover{
+    background-color: #978889;
+}
+
+.btn-add:hover{
+    background-color: #978889;
+}
    
-    </style>
+</style>
 
     <body>
 
-        <!--<div class="register-container container">--> 
-         <div class="select" id="" style="align:center;padding-left:40%;background-color:#673267;">
+        <!--<div class="register-container container">-->
+        <div class="sidebar">
+            <button class="btn btn-default" id="" onclick="#">退出</button>
+            <button class="btn btn-default" id="" onclick="#">菜单录入</button>
+            <button class="btn btn-default" id="" onclick="#">统计分析</button>
+            <button class="btn btn-default" id="" onclick="#">出卡/充值</button>
+            <button class="btn btn-default" id="" onclick="#">权限管理</button>
+        </div>
 
+          <div class="select" id="" style="">
+
+            <!-------------------------------------cartin--------------------------------------------- -->
             <div style="display:block;text-align:left;">
             <button class="btn btn-default" id="carten" onclick="carten()">食堂</button>
 
@@ -98,20 +164,20 @@
                         <div>
                             <div class="content-style-overlay">
                                 <span class="icon icon-close">Close the overlay</span>
-                                WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 
-                                <div class="featured_dishes" style="">
-
-                                    <div class="dishes" id="dishes">
+                                    <div class="dishes" id="">
+                                        <button class="btn btn-del" id="delete" onclick="delAll()" style="float:left;margin-right:30px;">删除菜单</button>
+                                        <button class="btn btn-add" id="add" onclick="add()">添加菜单</button>
 
                                         <% current.forEach(function(dish){ %>
-                                        <article>
+                                        <article id="<%= dish.id %>">
+                                            <div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
                                             <div class="dishe_img">
-                                                <a href="#"><img src="/images/<%= dish.image%>" alt="" title="" onclick="del()"/></a>                  
+                                                <a href="#"><img src="/images/<%= dish.image%>" id="img<%= dish.id %>" onclick="onSelect(this.id)"/></a>                  
                                             </div>
                                             <div class="dish_info">
                                                 <a href="#"><h2><%= dish.name %></h2></a>
-                                                <h3>price: <%= dish.price %></h3>
+                                                <h3><%= dish.price %></h3>
                                             </div>
                                             <ul class="rating">
                                                 <li></li>
@@ -123,8 +189,8 @@
                                         </article>
                                         <% }) %>
 
-                                    </div>
-                                </div><!--  end featured_dishes  -->
+                                    </div><!--end-dishes-->
+                      
 
                             </div>
                         </div>
@@ -161,33 +227,182 @@
                </div>
               </div>
 
+            <!-------------------------------------coffeeBar--------------------------------------------- -->
             <div style="display:block;text-align:center;">
-                <button class="btn btn-default" id="sellbar" style="display:block;">小卖部</button>
+                <button class="btn btn-default" id="coffee" style="display:block;"onclick="coffeeBar()">咖啡厅</button>
+
+                <div class="" id="coffeebar-child" style="display:none;">
+
+                <!--<section>-->
+                <div class="morph-button morph-button-overlay morph-button-fixed btn4" style="display:inline-block;">
+                    <button type="button">咖啡</button>
+                    <div class="morph-content">
+                        <div>
+                            <div class="content-style-overlay">
+                                <span class="icon icon-close">Close the overlay</span>
+
+                                    <div class="dishes" id="">
+                                        <button class="btn btn-del" id="deleteC" onclick="delAllCof()" style="float:left;margin-right:30px;">删除咖啡</button>
+                                        <button class="btn btn-add" id="addC" onclick="addCof()">添加咖啡</button>
+
+                                        <% current.forEach(function(dish){ %>
+                                        <article id="<%= dish.id %>">
+                                            <div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+                                            <div class="dishe_img">
+                                                <a href="#"><img src="/images/<%= dish.image%>" id="img<%= dish.id %>" onclick="onSelect(this.id)"/></a>                  
+                                            </div>
+                                            <div class="dish_info">
+                                                <a href="#"><h2><%= dish.name %></h2></a>
+                                                <h3><%= dish.price %></h3>
+                                            </div>
+                                            <ul class="rating">
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                                <li class="no-star"></li>
+                                            </ul>
+                                        </article>
+                                        <% }) %>
+
+                                    </div><!--end-dishes-->
+                      
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- morph-button -->        
+                <!--</section>-->
+
+              </div>
             </div>
 
+            <!-------------------------------------sellBar--------------------------------------------- -->
             <div style="display:block;text-align:center;">
-                <button class="btn btn-default" id="coffee" style="display:block;">咖啡</button>
+                <button class="btn btn-default" id="sellbar" style="display:block;"oncleck="sellBar()">小卖部</button>
             </div>
           </div>
            
         </div>
 
 
-        <script src="/assets/js/jquery-1.8.2.min.js"></script>
-        <script src="/assets/js/bootstrap.min.js"></script>
-        
-        <script type="text/javascript">
+<script src="/assets/js/jquery-1.8.2.min.js"></script>
+<!--<script src="/assets/bootstrap/js/bootstrap.min.js"></script>-->
 
-            function carten(){
-                var car=document.getElementById("carten-child");
-                if(car.style.display == "none"){
-                    car.style.display = "block";
-                }
-                else{
-                    car.style.display = "none";
+<script type="text/javascript">
+
+        function carten(){
+            var car=document.getElementById("carten-child");
+            if(car.style.display == "none"){
+                car.style.display = "block";
+            }
+            else{
+                car.style.display = "none";
+            }
+        }
+
+        function coffeeBar(){
+            var cof=document.getElementById("coffeebar-child");
+            if(cof.style.display == "none"){
+                cof.style.display = "block";
+            }
+            else{
+                cof.style.display = "none";
+            }
+        }
+
+        function onSelect(obj){
+
+                var dd = $("#"+"check"+obj).attr("id");
+                var d = document.getElementById(dd);
+
+                d.checked = true;
+                d.style.display = "block";
+            }
+
+        function del(o){
+            var dd = $("#"+o).attr("id");
+            var d = document.getElementById(dd);
+
+            d.style.display = "none";
+            /*var i = o[o.length-1];
+            var cbox = document.getElementsByName("checkbox");
+            cbox[i-1].checked = false;*/
+        }
+
+        function delAll(){
+        	    
+            var del = document.getElementsByName("checkbox");
+            var c = new Array();
+
+            for(i=0;i<del.length;i++){
+                if(del[i].checked){
+					c.push(del[i].parentNode.parentNode.attributes['id'].value);
+                    var par = del[i].parentNode.parentNode; 
+                    par.style.display = "none";                 
                 }
             }
-        </script>
+            
+            /*for(i=0;i<c.length;i++){
+        		alert(c[i]);
+        	}*/
+            
+            $.ajax({
+                url:'/dish/unset',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    ids:c
+                },
+                success: function(data){
+                    alert("删除成功！");
+                },
+            });
+        }
+        
+        function delAllCof(){
+                
+            var del = document.getElementsByName("checkbox");
+            var c = new Array();
+
+            for(i=0;i<del.length;i++){
+                if(del[i].checked){
+                    c.push(del[i].parentNode.parentNode.attributes['id'].value);
+                    var par = del[i].parentNode.parentNode; 
+                    par.style.display = "none";                 
+                }
+            }
+            
+            /*for(i=0;i<c.length;i++){
+                alert(c[i]);
+            }*/
+            
+            $.ajax({
+                url:'/dish/unset',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    ids:c
+                },
+                success: function(data){
+                    alert("删除成功！");
+                },
+            });
+        }
+
+        function add(){
+            //window.location.href = "http://www.baidu.com";
+            top.location = "/admin/add?type=0";
+            //window.navigate("http://www.baidu.com");
+        }
+
+        function addCof(){
+            //window.location.href = "http://www.baidu.com";
+            top.location = "/admin/add?type=1";
+            //window.navigate("http://www.baidu.com");
+        }
+
+</script>
 
 
 
@@ -315,6 +530,37 @@
                         classie.removeClass( document.body, 'noscroll' );
                         // remove scroll class from main el
                         classie.removeClass( e3, 'scroll' );
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterClose : function() {
+                        // can scroll again
+                        canScroll();
+                    }
+                } );
+
+                /****************btn4-overlay****************************/
+                var e4 = document.querySelector( '.btn4' );
+                
+                new UIMorphingButton( e4, {
+                    closeEl : '.icon-close',
+                    onBeforeOpen : function() {
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterOpen : function() {
+                        // can scroll again
+                        canScroll();
+                        // add class "noscroll" to body
+                        classie.addClass( document.body, 'noscroll' );
+                        // add scroll class to main el
+                        classie.addClass( e4, 'scroll' );
+                    },
+                    onBeforeClose : function() {
+                        // remove class "noscroll" to body
+                        classie.removeClass( document.body, 'noscroll' );
+                        // remove scroll class from main el
+                        classie.removeClass( e4, 'scroll' );
                         // don't allow to scroll
                         noScroll();
                     },

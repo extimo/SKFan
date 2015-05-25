@@ -7,7 +7,7 @@ var auth = require('../lib/middleware/auth');
 /* route /dish/get to get */
 router.use('/get', get);
 
-// router.use(auth('kitchen'));
+router.use(auth('kitchen'));
 
 /* set ids to currently available */
 router.post('/set', function(req, res, next){
@@ -17,7 +17,7 @@ router.post('/set', function(req, res, next){
 });
 
 /* remove ids from currently available */
-router.get('/unset', function(req, res, next){
+router.post('/unset', function(req, res, next){
 	Dish.removeFromCurrent(req.body.ids, function(err){
 		returnStatus(res, err)
 	})

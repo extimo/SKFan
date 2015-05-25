@@ -10,6 +10,9 @@ var join = path.join;
 var crypto = require('crypto');
 var gm = require('gm');
 
+/* GET signout page. */
+router.get('/signout', signout());
+
 /* if already signed in, redirect */
 router.use(function(req, res, next) {
 	if(req.session.auth && req.session.auth['authed']){
@@ -46,9 +49,6 @@ router.get('/signup', function(req, res, next) {
 
 /* POST signup data. */
 router.post('/signup', multipart({uploadDir: uploadDir}), signup(uploadDir));
-
-/* GET signout page. */
-router.get('/signout', signout());
 
 /* GET other pages that does not exist */
 router.use(function(req, res, next) {
@@ -114,12 +114,10 @@ function signup(dir){
 						
 						user.port = name;
 						saveUser(req, res, next, user);
-						authedUser(user.wwid, req, res, next);
 					});	
 				}else{
 					fs.unlinkSync(req.files.user.portrait.path);
-					saveUser(req, res, next, user);		
-					authedUser(user.wwid, req, res, next);
+					saveUser(req, res, next, user);
 				}
 			}
 		});
@@ -136,26 +134,30 @@ function saveUser(req, res, next, user){
 			console.log(err);
 			return next(err);
 		}
+		authedUser(user, req, res, next);
 	});
 }
 
-function authedUser(wwid, req, res, next){
-	User.getAuth(wwid, function(err, auth){
+function authedUser(user, req, res, next){
+	User.getAuth(user.wwid, function(err, auth){
 		if(err){
 			console.log(err);
 			return next(err);
 		}
-
 		req.session.auth = auth;
 		req.session.auth['authed'] = true;
-		req.session.wwid = wwid;
+		req.session.wwid = user.wwid;
+		
+		if(user.type == 'kitchen'){
+			req.session.kit_bind = user.kit;
+		}
 		if(req.session.next){
 			var url = req.session.next;
 			req.session.next = null;
 			res.redirect(url);
 		}
 		else{
-			res.redirect('/');
+			res.redirect(auth.home);
 		}
 	});
 }
@@ -170,7 +172,7 @@ function signin(){
 			}
 		
 			if(user){
-				authedUser(user.wwid, req, res, next);
+				authedUser(user, req, res, next);
 			}else{
 				res.error("Sorry! invalid credentials!");
 				res.redirect('back');
@@ -188,7 +190,7 @@ function signout(){
 				res.redirect(req.query.next);
 			}
 			else{
-				res.redirect('/');
+				res.redirect('/account');
 			}
 		});
 	};

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>饭掌柜系统</title>
+	<meta charset="utf-8">
+	<meta name="author" content="pixelhint.com">
+	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+	<script type="text/javascript" src="http://10.188.181.251:9527/socket.io/socket.io.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+
+<style type="text/css">
+.dishes{
+	background-color:#678656!important;
+}
+.pasttime{
+	font-size: 18px;
+	font-family: serif;
+	color: #bbbbbb;
+}
+.remind{
+	display: inline-block;
+	margin-left: 50px;
+	text-align: right;
+}
+.btn{
+		border: none;
+        -webkit-transition:background-color 1s linear;
+        -moz-transition:background-color 1s linear;
+        -o-transition:background-color 1s linear;
+        background-color:#856479;
+        color:#FFF;
+        width: 80px;
+        height:30px;
+        border-radius:10px;
+        display:block;
+        margin-bottom:20px;
+}
+.btn:hover{
+        background-color: #865667;
+        color:#000;
+    }
+.fry{
+	border-radius: 8px;
+	overflow-y: auto;
+	border: solid 1px #bbbbbb;
+	padding-left: 20px;
+	padding-top: 20px;
+    }
+.p1{
+	font-size: 20px;
+	font-family: 微软雅黑;
+	color:#786578;
+}
+</style>
+<body>
+
+			<div class="dishes" id="dishes">
+				<div class="fry"><p class="p1"><%= typeName %>当前订单：</p>
+					<div id="groups"></div>
+				<!--<article id="1">
+					<div class="dishe_img">
+						<a href="#"><img src="img/dish1.jpg" alt="" title="" id="img1" onclick="onSelect()"/></a>
+					</div>
+					
+					<div class="dish_info">
+						<a href="#"><h2 id="name">Cool Food</h2></a>
+						<h3 id="count">3份</h3>
+					</div>
+					<p class="pasttime">已点餐8分钟<span class="remind"><button class="btn" id="" onclick="remind()">提醒取餐</button></span></p>			
+				</article>-->
+				
+				
+				<!--<button class="btn" id="change" onclick="change()">修改菜单</button>-->
+				
+
+			</div>
+		</div>
+
+	<script src="/assets/js/jquery-1.8.2.min.js"></script>
+	<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		/*$(document).ready(function(){
+		
+			for(i=0;i<5;i++){
+				$(".fry").append("<article id="+(i*2)+"><div class='dishe_img'><a href='#'><img src='img/dish1.jpg' id='img1' onclick='onSelect()'/></a></div><div class='dish_info'><a href='#'><h2 id='name'>Cool Food</h2></a><h3 id='count'>"+(i+1)+"份</h3></div><p class='pasttime'>已点餐8分钟<span class='remind'><button class='btn' id="+i+" onclick='remind(this.id)'>提醒取餐</button></span></p></article>");
+			}
+		});*/
+
+
+		var socket = io.connect('http://10.188.181.251:9527');
+		
+		$(document).ready(function(){
+			socket.on('connected',function(){
+				socket.emit('getAllGroups', <%= type %>);
+			});
+
+			socket.on('allGroups:<%= type %>',function(orderGroup){
+				$("#groups").text("");
+				
+				for(i=0;i<orderGroup.length;i++){
+				$("#groups").append("<article id="+orderGroup[i].gid+"><div class='dishe_img'><a href='#'><img src='/images/"+orderGroup[i].image+"' id='img1' onclick='onSelect()'/></a></div><div class='dish_info'><a href='#'><h2 id='name'>"+orderGroup[i].name+"</h2></a><h3 id='count'>"+orderGroup[i].count+"份</h3></div><p class='pasttime'>已点餐8分钟<span class='remind'><button class='btn' id="+i+" onclick='remind(this.id)'>提醒取餐</button></span></p></article>");
+				}
+			})
+		});
+
+
+		var id;
+		function remind(o){
+			var e = document.getElementsByTagName("article");
+		    id = e[o].attributes['id'].value;
+			e[o].style.display = "none";
+			socket.emit('finishGroup', 0, id);
+		}
+
+		function change(){
+			top.location = "all_dish.ejs";
+		}
+	</script>
+	
+
+</body>
+</html>

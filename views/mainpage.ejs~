@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>饭掌柜系统</title>
+	<meta charset="utf-8">
+	<meta name="author" content="pixelhint.com">
+	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/component.css" />
+	<link rel="stylesheet" type="text/css" href="/css/content.css" />
+	<script src="/js/modernizr.custom.js"></script>
+</head>
+
+<style type="text/css">
+@import url('http://cdn.gbtags.com/font-awesome/4.1.0/css/font-awesome.min.css');
+.btn{
+    	 border: none;
+        -webkit-transition:background-color 1s linear;
+        -moz-transition:background-color 1s linear;
+        -o-transition:background-color 1s linear;
+        background-color:#856479;
+        color:#FFF;
+        width: 150px;
+        height:50px;
+        border-radius:10px;
+        display:block;
+        margin-bottom:20px;
+	}
+
+.sidebar{
+    width:200px;
+    height:100%;
+    position:fixed;
+    z-index:999;
+    background-color:#434343;
+    text-align: center;
+    float:left;
+    padding-left: 20px;
+    padding-top: 50px;
+    margin-left:-10px;
+    margin-top: -10px;
+}
+.btn:hover{
+        background-color: #865667;
+        color:#000;
+    }
+#dishes{
+	margin-left:200px;
+	width:90%!important;
+	overflow-x: hidden!important;
+	position:absolute;
+	z-index:100;
+}
+.btn-confirm{
+		background-color: #685889;
+		border-radius: 100px!important;
+}
+.btn-confirm:hover{
+        background-color: #865667;
+        color:#000;
+    }
+.count{
+    width:30px;height:30px;
+    //float:left!important;
+    position:absolute;
+    margin-left:210px;
+    margin-top: 180px;
+    text-align: center;
+    font-size: 23px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-style: oblique; 
+    color: #000;
+    border-radius: 5px;
+    background-color: #878695;
+    border:solid 3px #789655;
+    display: none;
+}
+.check{
+	display: none;
+}
+.pass{
+	width:200px;
+	height:40px;
+	font-size: 30px;
+	text-align: center;
+	border-radius: 5px;
+	border:solid 1px #657486;
+}
+
+.morph-content{
+	border-radius: 10px;
+}
+
+.profile a img{
+	width:80px;
+	height:80px;
+	border-radius: 40px;
+	margin-bottom: 0px;
+	text-align: center;
+	margin-left: -50px;
+	margin-top: -30px;
+}
+
+.profile a img:hover{
+
+}
+
+#wwid{
+	font-size: 15px;
+	font-family: sans-serif;
+	color:#bbbbbb;
+	text-align: center;
+	margin-bottom: 30px;
+	margin-left: -50px;
+	//display: none;
+}
+</style>
+<body>
+
+			<div class="sidebar">
+	            <div class="profile"><a href="#"><img src="/port/<%= wwid  %>/thumb" alt="" title="" id="profile" onclick=""/></a></div>
+				<div id="wwid"><span>WWID:<%= wwid %></span></div>
+
+	            <button class="btn btn-default" id="" onclick="fry()">我要点小炒</button>
+	            <button class="btn btn-default" id="" onclick="coffee()">我要点咖啡</button>
+	            <button class="btn btn-default" id="" onclick="#">我要点外卖</button>
+	            <button class="btn btn-default" id="" onclick="#">我要点评</button>
+	            <button class="btn btn-default" id="" onclick="#">餐厅活动</button>
+	            <button class="btn btn-default" id="" onclick="logout()">退出</button>
+
+	            <section>
+					<div class="morph-button morph-button-modal morph-button-modal-1 morph-button-fixed">
+						<div style="margin-top:50px;"><button type="button" class="btn btn-confirm" id="" onclick="confirm()">确定订单</button></div>
+
+						<div class="morph-content">
+								<div class="content-style-text" style="text-align:center;">
+									<span class="icon icon-close">Close the dialog</span>
+									<p id="total"></p>
+									<p id="time"></p>
+									<hr>
+									<p>确定订单，请输入订单密码：</p>
+									<p><input id="password" class="pass" type="password"/></p>
+									<p><div style="display:inline-block;"><input id="terms" class="btn btn-default" type="button" value="提交订单" onclick="submit()"/></div></p>
+								</div>
+						</div>
+					</div>
+				</section>
+
+	        </div>
+
+			<div class="dishes" id="dishes">
+
+				<% current.forEach(function(dish){ %>
+                <article id="<%= dish.id %>">
+                	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+                	<div><input id="countimg<%= dish.id %>" type="text" name="count" value="" class="count" readonly></div>
+                    <div class="dishe_img">
+                        <a href="#"><img src="/images/<%= dish.image%>" id="img<%= dish.id %>" alt="" title="" onclick="onSelect(this.id)"/></a>                  
+                    </div>
+                    <div class="dish_info">
+                        <a href="#"><h2><%= dish.name %></h2></a>
+                        <h3><%= dish.price %></h3>
+                    </div>
+                    <ul class="rating">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li class="no-star"></li>
+                    </ul>
+                </article>
+                <% }) %>
+				
+				<!--<article id="1">
+					<div><input id="checkimg1" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+					<div><input id="countimg1" type="text" name="count" value="" class="count"></div>
+					<div class="dishe_img">
+						<a href="#"><img src="img/dish1.jpg" alt="" title="" id="img1" onclick="onSelect(this.id)"/></a>
+					</div>
+					
+					<div class="dish_info">
+						<a href="#"><h2>Goden Flloen</h2></a>
+						<h3>$24</h3>
+					</div>
+					<ul class="rating">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li class="no-star"></li>
+					</ul>
+				</article>
+				
+				<article id="2">
+					<div><input id="checkimg2" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+					<div><input id="countimg2" type="text" name="count" value="" class="count"></div>
+					<div class="dishe_img">
+						<a href="#"><img src="img/dish1.jpg" alt="" title="" id="img2" onclick="onSelect(this.id)"/></a>
+					</div>
+					
+					<div class="dish_info">
+						<a href="#"><h2>Goden Flloen</h2></a>
+						<h3>$24</h3>
+					</div>
+					<ul class="rating">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li class="no-star"></li>
+					</ul>
+				</article>
+				
+				<article id="3">
+					<div><input id="checkimg3" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+					<div><input id="countimg3" type="text" name="" value="" class="count"></div>
+					<div class="dishe_img">
+						<a href="#"><img src="img/dish1.jpg" alt="" title="" id="img3" onclick="onSelect(this.id)"/></a>
+					</div>
+					<div class="dish_info">
+						<a href="#"><h2>Goden Flloen</h2></a>
+						<h3>$24</h3>
+					</div>
+					<ul class="rating">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li class="no-star"></li>
+					</ul>
+				</article>
+
+
+				<article id="4">
+					<div><input id="checkimg4" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+					<div><input id="countimg4" type="text" name="" value="" class="count"></div>
+					<div class="dishe_img">
+						<a href="#"><img src="img/dish1.jpg" alt="" title="" id="img4" onclick="onSelect(this.id)"/></a>
+					</div>
+					
+					<div class="dish_info">
+						<a href="#"><h2>Goden Flloen</h2></a>
+						<h3>$24</h3>
+					</div>
+					<ul class="rating">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li class="no-star"></li>
+					</ul>
+				</article>-->
+
+		</div>
+
+	<script src="assets/js/jquery-1.8.2.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+
+		function fry(){
+			window.location.href = "/";
+		}
+		
+		/*function onSelect(obj){
+			var $counting = $("#countimg" + $(this).data("id"));
+			var $checking = $("#checkimg" + $(this).data("id"));
+
+			$counting.val(parseInt($counting.val() || 0) + 1);
+
+			$checking.attr("checked", true);
+			$checking.show();
+			$counting.show();
+		}*/
+
+		function onSelect(obj){
+
+			var dd = $("#"+"check"+obj).attr("id");
+			var cc = $("#"+"count"+obj).attr("id");
+			var c = document.getElementById(cc);
+			var d = document.getElementById(dd);
+
+			c.value++;
+			d.checked = true;
+
+			c.style.display = "block";
+			d.style.display = "block";
+		}
+
+		function del(o){
+			var dd = $("#"+o).attr("id");
+			var cc = $("#"+o).parent().next().children().attr("id");
+			var c = document.getElementById(cc);
+			var d = document.getElementById(dd);
+
+			c.value = 0;
+			d.style.display = "none";
+			c.style.display = "none";
+
+			/*var i = o[o.length-1];
+			var cbox = document.getElementsByName("checkbox");
+			cbox[i-1].checked = false;*/
+		}
+
+		function confirm(){		
+			var conf = document.getElementsByName("checkbox");
+			var total = 0;
+			var time = 0;
+
+        	for(i=0;i<conf.length;i++){
+        		if(conf[i].checked){
+        			var count = $("#"+conf[i].id).parent().next().children().attr("value");
+        			var p = $("#"+conf[i].id).parent().next().next().next().children(":last").html();
+        			var price = p.substring(0,p.length);
+        			//alert(count);
+        			var temp = count*price;
+        			total += temp;
+        			time += count*5;
+        		}
+        	}
+        	//alert(total);
+        	//alert(time);
+        	document.getElementById("total").innerHTML = "总价："+total+"元";
+        	document.getElementById("time").innerHTML = "估计取餐时间："+time+"分钟";
+
+		}
+
+		function submit(){
+			//alert("www");
+			var conf = document.getElementsByName("checkbox");
+			var c = new Array();
+			var d = new Array();
+			for(i=0;i<conf.length;i++){
+				if(conf[i].checked){
+					//alert(i);
+					var count = $("#"+conf[i].id).parent().next().children().attr("value");
+					var id = $("#"+conf[i].id).parent().parent().attr("id");
+					//alert(count);
+					c.push(count);
+					d.push(id);				
+					//alert(count);
+					//alert(id)
+				}
+			}
+
+
+			$.ajax({
+	            url:'/order/place',
+	            type:'POST',
+	            dataType:'json',
+	            data:{
+	                counts:c,
+	                ids:d,
+	                type:0
+	            },
+	            success: function(data){
+	            	//alert(data);
+            		alert("提交成功！");
+            	}
+        	});
+
+        		
+
+		}
+
+		function coffee(){
+			top.location = "/coffee";
+		}
+
+		function logout(){
+			top.location = "/account/signout";
+		}
+
+	</script>
+
+	<script src="/js/classie.js"></script>
+	<script src="/js/uiMorphingButton_fixed.js"></script>
+	<script>
+			(function() {	
+				var docElem = window.document.documentElement, didScroll, scrollPosition;
+
+				// trick to prevent scrolling when opening/closing button
+				function noScrollFn() {
+					window.scrollTo( scrollPosition ? scrollPosition.x : 0, scrollPosition ? scrollPosition.y : 0 );
+				}
+
+				function noScroll() {
+					window.removeEventListener( 'scroll', scrollHandler );
+					window.addEventListener( 'scroll', noScrollFn );
+				}
+
+				function scrollFn() {
+					window.addEventListener( 'scroll', scrollHandler );
+				}
+
+				function canScroll() {
+					window.removeEventListener( 'scroll', noScrollFn );
+					scrollFn();
+				}
+
+				function scrollHandler() {
+					if( !didScroll ) {
+						didScroll = true;
+						setTimeout( function() { scrollPage(); }, 60 );
+					}
+				};
+
+				function scrollPage() {
+					scrollPosition = { x : window.pageXOffset || docElem.scrollLeft, y : window.pageYOffset || docElem.scrollTop };
+					didScroll = false;
+				};
+
+				scrollFn();
+
+				var UIBtnn = new UIMorphingButton( document.querySelector( '.morph-button' ), {
+					closeEl : '.icon-close',
+					onBeforeOpen : function() {
+						// don't allow to scroll
+						noScroll();
+					},
+					onAfterOpen : function() {
+						// can scroll again
+						canScroll();
+					},
+					onBeforeClose : function() {
+						// don't allow to scroll
+						noScroll();
+					},
+					onAfterClose : function() {
+						// can scroll again
+						canScroll();
+					}
+				} );
+
+				document.getElementById( 'terms' ).addEventListener( 'change', function() {
+					UIBtnn.toggle();
+				} );
+			})();
+		</script>
+	
+
+</body>
+</html>

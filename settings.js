@@ -3,5 +3,8 @@ module.exports = {
 	db: 'SKFan',
 	host: 'localhost',
 	port: '80',
-	sizeOfOrderFetchPackage: 5
+	sizeOfOrderFetchPackage: 5,
+	sizeOfDishGroup: 4,
+	countOfMinDishGroup: 5,
+	sizeOfShowingDishGroup: 5
 }

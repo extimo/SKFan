@@ -3,7 +3,7 @@ body{
     background: #fff;
 }
 /*******************dishes*****************************/
-.dishes{
+#dishes{
     width:100%!important;
     height:1000px!important;
     padding-left: 50px;
@@ -12,8 +12,10 @@ body{
     display:inline-block;
     overflow-y:auto;
     //overflow-x:hidden!important;
-    background-color:#678656 ;
+    //background-color:#678656 ;
+    background-color: #864767;
     margin:-10px;
+    border-radius:10px;
 }
 
 .dishes article{
@@ -93,6 +95,8 @@ body{
     background-color: #657465;
     color:#657445;
 }
+
+/*********************img***************************/
 .check{
     width:30px;height:30px;
     float:left;
@@ -100,3 +104,18 @@ body{
     margin-left:200px;
     margin-top: -1px;
 }
+
+.dishe_img{
+        border-radius: 10px;
+    }
+
+.dish_info a h2,.dish_info h3{
+        color:#bbbbbb!important;
+    }
+
+
+
+
+
+
+

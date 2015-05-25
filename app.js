@@ -11,9 +11,15 @@ var admin = require('./routes/admin');
 var port = require('./routes/port');
 var account = require('./routes/account');
 var dish = require('./routes/dish');
+var order = require('./routes/order');
+var kitchen = require('./routes/kitchen');
 var auth = require('./lib/middleware/auth');
 var settings = require('./settings');
 var app = express();
+var io = require('socket.io').listen(9527);
+
+// io callback
+require('./lib/io')(io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,11 +40,14 @@ app.use(session({
   cookie: {secure: false}
 }));
 app.use(messages);
+app.use(require('./lib/middleware/passio')(io));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', auth('admin', '/account/signin?next=/admin'), admin);
+app.use('/order', auth('user'), order);
 app.use('/dish', dish);
-app.use('/port', port);
+app.use('/port', auth('user'), port);
+app.use('/kitchen', auth('kitchen', '/account/signin?next=/kitchen'), kitchen);
 app.use('/account', account);
 app.use('/', main);
 
