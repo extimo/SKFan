@@ -142,7 +142,7 @@
 
         <!--<div class="register-container container">-->
         <div class="sidebar">
-            <button class="btn btn-default" id="" onclick="#">退出</button>
+            <button class="btn btn-default" id="" href="/account/signout">退出</button>
             <button class="btn btn-default" id="" onclick="#">菜单录入</button>
             <button class="btn btn-default" id="" onclick="#">统计分析</button>
             <button class="btn btn-default" id="" onclick="#">出卡/充值</button>
@@ -169,7 +169,7 @@
                                         <button class="btn btn-del" id="delete" onclick="delAll()" style="float:left;margin-right:30px;">删除菜单</button>
                                         <button class="btn btn-add" id="add" onclick="add()">添加菜单</button>
 
-                                        <% current.forEach(function(dish){ %>
+                                        <% current[0].forEach(function(dish){ %>
                                         <article id="<%= dish.id %>">
                                             <div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
                                             <div class="dishe_img">
@@ -245,7 +245,7 @@
                                         <button class="btn btn-del" id="deleteC" onclick="delAllCof()" style="float:left;margin-right:30px;">删除咖啡</button>
                                         <button class="btn btn-add" id="addC" onclick="addCof()">添加咖啡</button>
 
-                                        <% current.forEach(function(dish){ %>
+                                        <% current[1].forEach(function(dish){ %>
                                         <article id="<%= dish.id %>">
                                             <div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
                                             <div class="dishe_img">

@@ -1,0 +1,73 @@
+
+/********************768px********************************/
+@media screen and (max-width: 800px){
+
+#dishes{
+   background-color: #564554;
+   padding-right: 0px;
+   padding-left: 30px;
+}
+
+.btn{
+    font-size: 0.6em!important;
+}
+
+.btn-confirm{
+    width:20%!important;
+    height:30px!important;
+    margin-top: 0px;
+    margin-left: 0px!important;
+}
+
+.btn-submit{
+     font-size: 0.8em!important;
+}
+.profile a img{
+    margin-left: -20px!important;
+}
+
+
+#wwid span{
+    font-size: 0.7em!important;
+}
+
+
+/****************************mymenu*******************************/
+table{
+    width:500px;
+}
+
+
+
+}
+
+/********************550px********************************/
+@media screen and (max-width: 400px){
+    table{
+        width:250px;
+    }
+
+
+}
+
+
+
+/********************800px-1024px********************************/
+@media screen and (min-width: 800px) and (max-width: 1024px){
+
+.btn-confirm{
+    width:30%!important;
+ 
+}
+
+}
+
+
+
+
+
+
+
+
+
+

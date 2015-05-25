@@ -23,7 +23,7 @@ router.post('/place', function(req, res, next) {
 					console.log('order.place.getWorkingGroups: ' + err);
 				}
 				else{
-					res.locals.io.sockets.emit('allGroups:' + req.body.type, groups);
+					res.locals.io.sockets.emit('allGroups:' + req.body.type, {orderGroup: groups, newly: true});
 				}
 			});
 		}

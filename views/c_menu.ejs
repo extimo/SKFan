@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<title>饭掌柜系统</title>
-	<meta charset="utf-8">
-	<meta name="author" content="pixelhint.com">
-	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
-	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
-	<script type="text/javascript" src="http://10.188.181.251:9527/socket.io/socket.io.js"></script>
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
-</head>
 
+    <!-- Bootstrap -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<script type="text/javascript" src="http://10.188.181.248:9527/socket.io/socket.io.js"></script>
+	<script src="/rendor/soundmaster/soundmaster.min.js"></script>
+  </head>
 <style type="text/css">
-.dishes{
-	background-color:#678656!important;
-}
 .pasttime{
 	font-size: 18px;
 	font-family: serif;
@@ -24,83 +30,54 @@
 	margin-left: 50px;
 	text-align: right;
 }
-.btn{
-		border: none;
-        -webkit-transition:background-color 1s linear;
-        -moz-transition:background-color 1s linear;
-        -o-transition:background-color 1s linear;
-        background-color:#856479;
-        color:#FFF;
-        width: 80px;
-        height:30px;
-        border-radius:10px;
-        display:block;
-        margin-bottom:20px;
-}
-.btn:hover{
-        background-color: #865667;
-        color:#000;
-    }
-.fry{
-	border-radius: 8px;
-	overflow-y: auto;
-	border: solid 1px #bbbbbb;
-	padding-left: 20px;
-	padding-top: 20px;
-    }
-.p1{
-	font-size: 20px;
-	font-family: 微软雅黑;
-	color:#786578;
-}
 </style>
 <body>
-
-			<div class="dishes" id="dishes">
-				<div class="fry"><p class="p1"><%= typeName %>当前订单：</p>
-					<div id="groups"></div>
-				<!--<article id="1">
-					<div class="dishe_img">
-						<a href="#"><img src="img/dish1.jpg" alt="" title="" id="img1" onclick="onSelect()"/></a>
+	<div class="container-fluid" style="margin-top:50px">
+		<div class="col-sm-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h1>
+						<%= typeName %>当前订单：
+						<a style="color:#fff" class="lead btn pull-right">退出</a>
+					</h1>
+				</div>
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div id="groups"></div>
 					</div>
-					
-					<div class="dish_info">
-						<a href="#"><h2 id="name">Cool Food</h2></a>
-						<h3 id="count">3份</h3>
-					</div>
-					<p class="pasttime">已点餐8分钟<span class="remind"><button class="btn" id="" onclick="remind()">提醒取餐</button></span></p>			
-				</article>-->
-				
-				
-				<!--<button class="btn" id="change" onclick="change()">修改菜单</button>-->
-				
-
+				</div>
 			</div>
 		</div>
-
+	</div>
+	<footer style="text-align: center">
+		<small>&copy;2015 intel成都 新事业部</small>
+	</footer>
 	<script src="/assets/js/jquery-1.8.2.min.js"></script>
 	<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/kitchen.js"></script>
 	<script type="text/javascript">
-		/*$(document).ready(function(){
-		
-			for(i=0;i<5;i++){
-				$(".fry").append("<article id="+(i*2)+"><div class='dishe_img'><a href='#'><img src='img/dish1.jpg' id='img1' onclick='onSelect()'/></a></div><div class='dish_info'><a href='#'><h2 id='name'>Cool Food</h2></a><h3 id='count'>"+(i+1)+"份</h3></div><p class='pasttime'>已点餐8分钟<span class='remind'><button class='btn' id="+i+" onclick='remind(this.id)'>提醒取餐</button></span></p></article>");
-			}
-		});*/
-
-
-		var socket = io.connect('http://10.188.181.251:9527');
+		if(<%= type %> == "1"){
+			$("body").css("background-image", "url(/images/coffee_bg_fade.JPG)");
+		}
+		var socket = io.connect('http://10.188.181.248:9527');
 		
 		$(document).ready(function(){
 			socket.on('connected',function(){
 				socket.emit('getAllGroups', <%= type %>);
 			});
 
-			socket.on('allGroups:<%= type %>',function(orderGroup){
-				$("#groups").text("");
-				
-				for(i=0;i<orderGroup.length;i++){
-				$("#groups").append("<article id="+orderGroup[i].gid+"><div class='dishe_img'><a href='#'><img src='/images/"+orderGroup[i].image+"' id='img1' onclick='onSelect()'/></a></div><div class='dish_info'><a href='#'><h2 id='name'>"+orderGroup[i].name+"</h2></a><h3 id='count'>"+orderGroup[i].count+"份</h3></div><p class='pasttime'>已点餐8分钟<span class='remind'><button class='btn' id="+i+" onclick='remind(this.id)'>提醒取餐</button></span></p></article>");
+			socket.on('allGroups:<%= type %>',function(data){
+				if(data.newly){
+					soundManager.play('sms');
+				}
+				if(data.orderGroup.length == 0){
+					$("#groups").text("目前还没有订单");
+				}
+				else{
+					$("#groups").text("");
+				}
+				for(i=0;i<data.orderGroup.length;i++){
+				$("#groups").append("<div class='col-xs-4 col-md-2' id=g"+data.orderGroup[i].gid+"><div class='thumbnail'><img class='img-responsive' src='/images/"+data.orderGroup[i].image+"' id='img1' onclick='onSelect()'/><div class='caption'><h4>"+data.orderGroup[i].name+"</h4><p id='count'>"+data.orderGroup[i].count+"份</p><p class='pasttime'>已点餐"+data.orderGroup[i].time+"分钟</p><button class='btn btn-success' id="+data.orderGroup[i].gid+" onclick='remind(this.id)'>提醒取餐</button></div></div></div>");
 				}
 			})
 		});
@@ -108,17 +85,9 @@
 
 		var id;
 		function remind(o){
-			var e = document.getElementsByTagName("article");
-		    id = e[o].attributes['id'].value;
-			e[o].style.display = "none";
-			socket.emit('finishGroup', 0, id);
-		}
-
-		function change(){
-			top.location = "all_dish.ejs";
+		    $("#g" + o).hide();
+			socket.emit('finishGroup', <%= type %>, o);
 		}
 	</script>
-	
-
 </body>
 </html>

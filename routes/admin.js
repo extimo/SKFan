@@ -5,12 +5,18 @@ var Dish = require('../lib/dish');
 
 /* GET admin pages */
 router.get('/', function(req, res, next) {
-	Dish.getCurrentType(0, function(err, c_dishes){
+	Dish.getCurrentType(0, function(err, c_dishes0){
 		if(err){
 			return next(err);
 		}
 	
-		res.render('today_dish', {current: c_dishes});
+		Dish.getCurrentType(1, function(err, c_dishes1){
+			if(err){
+				return next(err);
+			}
+	
+			res.render('today_dish', {current: [c_dishes0, c_dishes1]});
+		});
 	});
 });
 

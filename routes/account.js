@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multipart = require('connect-multiparty');
 var uploadDir = require('path').join(__dirname, '../upload');
+// var Cookie = require('cookie');
 
 var User = require('../lib/user');
 var path = require('path');

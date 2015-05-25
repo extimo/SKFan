@@ -6,7 +6,8 @@
 	<meta name="author" content="pixelhint.com">
 	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/response.css">
 
 	<link rel="stylesheet" type="text/css" href="/css/component.css" />
 	<link rel="stylesheet" type="text/css" href="/css/content.css" />
@@ -16,21 +17,23 @@
 <style type="text/css">
 @import url('http://cdn.gbtags.com/font-awesome/4.1.0/css/font-awesome.min.css');
 .btn{
-    	 border: none;
+    	  border: none;
         -webkit-transition:background-color 1s linear;
         -moz-transition:background-color 1s linear;
         -o-transition:background-color 1s linear;
         background-color:#856479;
         color:#FFF;
-        width: 150px;
-        height:50px;
+        //width: 150px;
+        width:75%;
+        height:6.5%;
         border-radius:10px;
         display:block;
-        margin-bottom:20px;
+        margin-bottom:9%;
+        font-size: 0.8em;
 	}
 
 .sidebar{
-    width:200px;
+    width:12%;
     height:100%;
     position:fixed;
     z-index:999;
@@ -47,8 +50,8 @@
         color:#000;
     }
 #dishes{
-	margin-left:200px;
-	width:90%!important;
+	margin-left:12%;
+	width:85%!important;
 	overflow-x: hidden!important;
 	position:absolute;
 	z-index:100;
@@ -56,6 +59,14 @@
 .btn-confirm{
 		background-color: #685889;
 		border-radius: 100px!important;
+		height:50px;
+		width:40%;
+		margin-left: 0px;
+}
+
+.btn-submit{
+	 width:150px;
+     height:50px;
 }
 .btn-confirm:hover{
         background-color: #865667;
@@ -108,15 +119,31 @@
 
 }
 
-#wwid{
-	font-size: 15px;
+#wwid span{
+	font-size: 1em;
 	font-family: sans-serif;
 	color:#bbbbbb;
 	text-align: center;
-	margin-bottom: 30px;
-	margin-left: -50px;
-	//display: none;
+	margin-bottom: 10%;
+	margin-left: -20%;
+	display: inline-block;
 }
+
+footer{
+	width:100%;
+	height:40px;
+	line-height: 40px;
+	overflow: hidden;
+	margin-left: -15%;
+	position:fixed;
+	bottom: 0;
+	background-color: #434343;
+	text-align:center;
+	font-size: 0.8em;
+	font-family: sans-serif;
+	color: #bbbbbb;
+}
+
 </style>
 <body>
 
@@ -133,7 +160,7 @@
 
 	            <section>
 					<div class="morph-button morph-button-modal morph-button-modal-1 morph-button-fixed">
-						<div style="margin-top:50px;"><button type="button" class="btn btn-confirm" id="" onclick="confirm()">确定订单</button></div>
+						<div style="margin-top:10px;"><button type="button" class="btn btn-confirm" id="" onclick="confirm()">确定订单</button></div>
 
 						<div class="morph-content">
 								<div class="content-style-text" style="text-align:center;">
@@ -143,7 +170,7 @@
 									<hr>
 									<p>确定订单，请输入订单密码：</p>
 									<p><input id="password" class="pass" type="password"/></p>
-									<p><div style="display:inline-block;"><input id="terms" class="btn btn-default" type="button" value="提交订单" onclick="submit()"/></div></p>
+									<p><div style="display:inline-block;"><input id="terms" class="btn btn-submit" type="button" value="提交订单" onclick="submit()"/></div></p>
 								</div>
 						</div>
 					</div>
@@ -174,7 +201,7 @@
                 </article>
                 <% }) %>
 				
-				
+			<footer>intel成都@新事业部</footer>	
 
 		</div>
 

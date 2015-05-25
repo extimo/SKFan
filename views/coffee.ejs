@@ -7,6 +7,7 @@
 	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
 
 	<link rel="stylesheet" type="text/css" href="/css/component.css" />
 	<link rel="stylesheet" type="text/css" href="/css/content.css" />
@@ -117,6 +118,34 @@
 	margin-left: -50px;
 	//display: none;
 }
+
+.cof-select{
+	text-align: left;
+	padding-left:-50px;
+	font-size: 15px;
+	font-family: sans-serif;
+	color: #bbbbbb;
+}
+
+.icon-remove-sign{
+	display: inline-block;
+	//float:left;
+	position: absolute;
+	margin-top: -25px!important;
+	margin-left: 210px;
+	font-size: 60px;
+	color: #343434;
+	display:none;
+}
+
+.icon-remove-sign:hover{
+	color:#c04;
+}
+
+.check{
+	width:5px;
+	height:5px;
+}
 </style>
 <body>
 
@@ -155,7 +184,7 @@
 
 				<% dishes.forEach(function(dish){ %>
                 <article id="<%= dish.id %>">
-                	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+                	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" style="" onclick="del(this.id)"><label for="checkimg<%= dish.id %>"><i id="iconimg<%= dish.id %>" class="icon-remove-sign"></i></label></div>
                 	<div><input id="countimg<%= dish.id %>" type="text" name="count" value="" class="count" readonly></div>
                     <div class="dishe_img">
                         <a href="#"><img src="/images/<%= dish.image%>" id="img<%= dish.id %>" alt="" title="" onclick="onSelect(this.id)"/></a>                  
@@ -171,6 +200,11 @@
                         <li></li>
                         <li class="no-star"></li>
                     </ul>
+                    <div class="cof-select" id="">
+					<label><input id="" type="checkbox" name="coffeebox" class="" onclick="">加糖</label>
+					<label><input id="" type="checkbox" name="coffeebox" class="" onclick="">加奶</label>
+					<label><input id="" type="checkbox" name="coffeebox" class="" onclick="">加热</label>
+					</div>
                 </article>
                 <% }) %>
 
@@ -184,30 +218,39 @@
 
 			var dd = $("#"+"check"+obj).attr("id");
 			var cc = $("#"+"count"+obj).attr("id");
+			var ii = $("#"+"icon"+obj).attr("id");
+
 			var c = document.getElementById(cc);
 			var d = document.getElementById(dd);
+			var i = document.getElementById(ii);
 
 			c.value++;
 			d.checked = true;
 
 			c.style.display = "block";
 			d.style.display = "block";
+			i.style.display = "block";
+
 		}
 
 		function del(o){
+			var img  = o.substring(5,o.length);
+	
 			var dd = $("#"+o).attr("id");
 			var cc = $("#"+o).parent().next().children().attr("id");
+			var ii = $("#icon"+img).attr("id");
+
 			var c = document.getElementById(cc);
 			var d = document.getElementById(dd);
+			var i = document.getElementById(ii);
 
 			c.value = 0;
 			d.style.display = "none";
 			c.style.display = "none";
+			i.style.display = "none";
 
-			/*var i = o[o.length-1];
-			var cbox = document.getElementsByName("checkbox");
-			cbox[i-1].checked = false;*/
 		}
+
 
 		function confirm(){		
 			var conf = document.getElementsByName("checkbox");
@@ -258,7 +301,7 @@
 	            data:{
 	                counts:c,
 	                ids:d,
-	                type:0
+	                type:1
 	            },
 	            success: function(data){
 	            	//alert(data);
