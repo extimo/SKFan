@@ -8,7 +8,7 @@
     <title>Welcome to SKFan !</title>
 
     <!-- Bootstrap -->
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/renders/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -16,7 +16,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link href="/assets/cover.css" rel="stylesheet">
+    <link href="/css/cover.css" rel="stylesheet">
   </head>
   
   <body>
@@ -43,7 +43,7 @@
 						<div class="col-md-8 col-md-offset-2">
 							<h2 class="form-signin-heading">Fill the follow form to sign up</h2>
 							<% include messages %>
-							<form class="form-horizontal" method="post" action="signup" enctype="multipart/form-data">
+							<form class="form-horizontal" method="post" action="signup" onsubmit="return signUp();" enctype="multipart/form-data">
 								<div class="form-group">
 									<input type="text" class="form-control" id="wwid" name="user[wwid]" placeholder="WWID" required autofocus>
 								</div>
@@ -59,13 +59,25 @@
 								<div class="form-group">
 									<input type="password" class="form-control" id="password" name="user[password]" placeholder="Password" required>
 								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" id="phone" name="user[phone]" placeholder="Phone" required>
+									<div class="pull-left">
+										(请输入手机号 ，用于接收取餐信息)
+									</div>
+								</div>
+								<div class="form-group">									
+									<div class="pull-center" id="">
+										<img src="/images/logoFan.png" id="" alt="" title="" style="width:50px;height:50px;"/>
+										<p>(关注公众号，接收取餐消息)</p>
+									</div>
+								</div>
 								<div class="form-group left-text">
-									<!--<div class="pull-right">
+									<div class="pull-right">
 										<label for="portrait">
-											<button type="button" class="btn btn-sm">choose file</button>
+											<button type="button" class="btn btn-sm" onclick="$('#portrait').click()">choose file</button>
 										</label>
-									</div>-->
-									<input style="" type="file" id="portrait" name="user[portrait]">
+									</div>
+									<input style="display:none;" type="file" id="portrait" name="user[portrait]">
 									<div class="pull-left" id="lbUpload">
 										upload portrait:
 									</div>
@@ -87,13 +99,48 @@
 		</div>
 		</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="/rendor/jquery-1.11.2.min.js"></script>
+    <script src="/js/jquery-1.11.2.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/renders/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/common.js"></script>
     <script>
     	$("#portrait").on('change', function(){
     		$("#lbUpload").text("+portrait selected: " + $(this).val());
 		});
+
+		/********************account************************/
+		function signUp(){
+			var wwid = document.getElementById("wwid").value;
+			var email = document.getElementById("email").value + "@intel.com";
+			var nick = document.getElementById("nickname").value;
+			var psd = document.getElementById("password").value;
+			var phone = document.getElementById("phone").value;
+			
+			if(!isWWID(wwid)){
+				alert("WWID格式不对!");
+				return false;
+				}
+			else{
+				if(!isEmail(email)){
+					alert("Email格式不对!");
+					return false;
+				}
+				else{
+					if(!isPassword(psd)){
+						alert("密码至少6位，请重新设定密码!");
+						return false;
+					}
+					else{
+						if(!isPhone(phone)){
+							alert("手机号码格式不对!");
+							return false;
+						}
+						else return true;
+					}
+				}
+			}
+		 
+		}
 	</script>
   </body>
 </html>

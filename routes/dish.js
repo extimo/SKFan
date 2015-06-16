@@ -4,6 +4,17 @@ var get = require('./get');
 var Dish = require('../lib/dish');
 var auth = require('../lib/middleware/auth');
 
+/****************************<yemao>******************************/
+var multipart = require('connect-multiparty');
+var uploadDir = require('path').join(__dirname, '../images');
+var path = require('path');
+var fs = require('fs');
+var join = path.join;
+var crypto = require('crypto');
+var gm = require('gm');
+/****************************</yemao>******************************/
+
+
 /* route /dish/get to get */
 router.use('/get', get);
 
@@ -24,13 +35,65 @@ router.post('/unset', function(req, res, next){
 });
 
 router.use(auth('admin'));
-
+/*add new dishes from DB*/
 router.post('/add', function(req, res, next){
 	var dish = new Dish(req.body.dish);
 	dish.save(function(err){
 		returnStatus(res, err);
 	});
 });
+
+/******************<yemao>******************************/
+/*add newdish by admin*/
+router.post('/addcof', multipart({uploadDir: uploadDir}), addcof(uploadDir));
+
+function addcof(dir){
+	return function(req,res,next){
+	var dish = new Dish(req.body.dish);
+
+	if(req.files.dish.image.name){
+			var img = req.files.dish.image;
+			
+			var name = new Date().getTime().toString();
+			var md5 = crypto.createHash('md5');
+			md5.update(name);
+			name = md5.digest('hex');
+			name = name.substring(0,8);
+			var path = join(dir, name + ".jpg");
+			var thumb_path = join(dir, name + ".thumb.jpg");
+			fs.rename(img.path, path, function(err){
+				if(err){
+					fs.unlinkSync(img.path);
+					return next(err);
+				}
+				
+				gm(path).thumb(100, 100, thumb_path, 100, function(err){
+					if(err){
+						console.log(err);
+						fs.unlinkSync(path);
+						return next(err);
+					}
+				});
+				
+				dish.image = name;
+				dish.save(function(err){
+					returnStatus(res, err);
+					});
+			});	
+		}
+	else{
+		fs.unlinkSync(req.files.dish.image.path);
+		dish.save(function(err){
+			returnStatus(res, err);	
+			});
+		}
+	};
+	
+}
+
+
+/******************</yemao>******************************/
+
 
 router.get('/remove/:id', function(req, res, next){
 	Dish.remove(req.params.id, function(err){

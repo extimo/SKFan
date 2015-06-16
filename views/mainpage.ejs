@@ -5,9 +5,11 @@
 	<meta charset="utf-8">
 	<meta name="author" content="pixelhint.com">
 	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
-	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no"/>
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/css/response.css">
+	<link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
+	<!--<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">-->
 
 	<link rel="stylesheet" type="text/css" href="/css/component.css" />
 	<link rel="stylesheet" type="text/css" href="/css/content.css" />
@@ -46,12 +48,13 @@
     margin-top: -10px;
 }
 .btn:hover{
-        background-color: #865667;
+        background-color: #0071c5!important;
         color:#000;
     }
 #dishes{
 	margin-left:12%;
 	width:85%!important;
+	padding-bottom: 30px;
 	overflow-x: hidden!important;
 	position:absolute;
 	z-index:100;
@@ -65,8 +68,12 @@
 }
 
 .btn-submit{
-	 width:150px;
-     height:50px;
+		width:150px;
+     	height:50px;
+		background-color:#66aedf!important;
+}
+.btn-submit:hover{
+	background-color: #0071c5!important;
 }
 .btn-confirm:hover{
         background-color: #865667;
@@ -103,6 +110,7 @@
 
 .morph-content{
 	border-radius: 10px;
+	background-color: #005092!important;
 }
 
 .profile a img{
@@ -144,6 +152,25 @@ footer{
 	color: #bbbbbb;
 }
 
+.icon-remove-sign{
+	display: inline-block;
+	//float:left;
+	position: absolute;
+	margin-top: -25px!important;
+	margin-left: 210px;
+	font-size: 60px;
+	color: #343434;
+	display:none;
+}
+
+.icon-remove-sign:hover{
+	color:#c04;
+}
+
+.check{
+	width:5px;
+	height:5px;
+}
 </style>
 <body>
 
@@ -153,9 +180,9 @@ footer{
 
 	            <button class="btn btn-default" id="" onclick="fry()">我要点小炒</button>
 	            <button class="btn btn-default" id="" onclick="coffee()">我要点咖啡</button>
-	            <button class="btn btn-default" id="" onclick="#">我要点外卖</button>
-	            <button class="btn btn-default" id="" onclick="#">我要点评</button>
-	            <button class="btn btn-default" id="" onclick="#">餐厅活动</button>
+	            <button class="btn btn-default" id="" onclick="fry()">我要点外卖</button>
+	            <button class="btn btn-default" id="" onclick="myorder()">我的订单</button>
+	            <button class="btn btn-default" id="" onclick="activities()">餐厅活动</button>
 	            <button class="btn btn-default" id="" onclick="logout()">退出</button>
 
 	            <section>
@@ -182,14 +209,14 @@ footer{
 
 				<% dishes.forEach(function(dish){ %>
                 <article id="<%= dish.id %>">
-                	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+                	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" style="" onclick="del(this.id)"><label for="checkimg<%= dish.id %>"><i id="iconimg<%= dish.id %>" class="icon-remove-sign"></i></label></div>
                 	<div><input id="countimg<%= dish.id %>" type="text" name="count" value="" class="count" readonly></div>
                     <div class="dishe_img">
-                        <a href="#"><img src="/images/<%= dish.image%>" id="img<%= dish.id %>" alt="" title="" onclick="onSelect(this.id)"/></a>                  
+                        <a href="javascript:void(0)"><img src="/image/<%= dish.image%>/large" id="img<%= dish.id %>" alt="" title="" onclick="onSelect(this.id)"/></a>                  
                     </div>
                     <div class="dish_info">
                         <a href="#"><h2><%= dish.name %></h2></a>
-                        <h3><%= dish.price %></h3>
+                        <h3>￥<%= dish.price %></h3>
                     </div>
                     <ul class="rating">
                         <li></li>
@@ -201,7 +228,7 @@ footer{
                 </article>
                 <% }) %>
 				
-			<footer>intel成都@新事业部</footer>	
+			<footer>&copy;2015 intel成都</footer>	
 
 		</div>
 
@@ -213,29 +240,36 @@ footer{
 
 			var dd = $("#"+"check"+obj).attr("id");
 			var cc = $("#"+"count"+obj).attr("id");
+			var ii = $("#"+"icon"+obj).attr("id");
+
 			var c = document.getElementById(cc);
 			var d = document.getElementById(dd);
+			var i = document.getElementById(ii);
 
 			c.value++;
 			d.checked = true;
 
 			c.style.display = "block";
 			d.style.display = "block";
+			i.style.display = "block";
+
 		}
 
 		function del(o){
+			var img  = o.substring(5,o.length);
+
 			var dd = $("#"+o).attr("id");
 			var cc = $("#"+o).parent().next().children().attr("id");
+			var ii = $("#icon"+img).attr("id");
+
 			var c = document.getElementById(cc);
 			var d = document.getElementById(dd);
+			var i = document.getElementById(ii);
 
 			c.value = 0;
 			d.style.display = "none";
 			c.style.display = "none";
-
-			/*var i = o[o.length-1];
-			var cbox = document.getElementsByName("checkbox");
-			cbox[i-1].checked = false;*/
+			i.style.display = "none";
 		}
 
 		function confirm(){		
@@ -247,7 +281,7 @@ footer{
         		if(conf[i].checked){
         			var count = $("#"+conf[i].id).parent().next().children().attr("value");
         			var p = $("#"+conf[i].id).parent().next().next().next().children(":last").html();
-        			var price = p.substring(0,p.length);
+        			var price = p.substring(1,p.length);
         			//alert(count);
         			var temp = count*price;
         			total += temp;
@@ -313,6 +347,14 @@ footer{
 
 		function coffee(){
 			top.location = "/coffee";
+		}
+
+		function myorder(){
+			window.location.href = "/myorder";
+		}
+		
+		function activities(){
+			window.location.href = "/activities";
 		}
 
 		function logout(){

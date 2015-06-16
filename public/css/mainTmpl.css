@@ -1,0 +1,132 @@
+@media all and (orientation: portrait) {
+  .hidden-portrait {
+    display: none!important;
+  }
+	.order-stats-bar {
+		width: 100%;
+	}
+  .portrait-12 {
+    position: relative;
+    float: left;
+    width: 100%;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+@media all and (orientation: landscape) {
+  .hidden-landscape {
+    display: none!important;
+  }
+	.order-stats-bar {
+		width: 83.33333333%;
+	}
+  .landscape-10 {
+    position: relative;
+    float: left;
+    width: 83.33333333%;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 16.66666667%;
+  }
+}
+.sidebar-lg-container {
+  background-color: #0062a8;
+  position: fixed;
+}
+.sidebar {
+  margin-top: 12px;
+  overflow: hidden;
+}
+.sidebar > a {
+  color: #fff;
+  background-color: #0062a8!important;
+  border: 1px dashed #ccc!important;
+}
+.sidebar > a.active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+.sidebar > a:hover {
+  color: #0062a8;
+  background-color: #fff!important;
+}
+.sidebar > a.active:hover {
+  color: #0062a8;
+}
+a.list-group-item-static,
+a.list-group-item-static:hover {
+  color: #fff;
+  background-color: #0062a8!important;
+}
+.sidebar-xs-container {
+  background-color: #0062a8;
+  position: fixed;
+  z-index: 1000;
+  margin-top: 50px;
+}
+.navbar-custom {
+  background-color: #0062a8;
+  position: fixed;
+  z-index: 1000;
+}
+.navbar-toggle-custom {
+  background-color: #fff;
+  position: relative;
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.navbar-toggle-custom:hover {
+  background-color: #ccc;
+}
+.navbar-toggle-custom > .icon-bar {
+  background-color: #0062a8!important;
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+}
+.navbar-toggle-custom .icon-bar + .icon-bar {
+  margin-top: 4px;
+}
+a.dish-name {
+  text-decoration: none;
+  cursor: default;
+}
+.fixed-bottom {
+  z-index: 999;
+  position: fixed;
+  bottom: 0;
+}
+.order-stats-bar {
+  height: 80px;
+  background-color: #0062a8;
+  color: #fff;
+  border: 0;
+}
+footer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.total-price {
+  font-size: 36px;
+  margin-top: 16px;
+  margin-left: 10px;
+  display: inline-block;
+}
+.bottom-buttons {
+  margin-top: 16px;
+  margin-right: 10px;
+  display: inline-block;
+}
+.bottom-button {
+  margin-left: 10px;
+}
+.holder-portrait{
+	min-height: 50px;
+}

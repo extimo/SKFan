@@ -6,5 +6,6 @@ module.exports = {
 	sizeOfOrderFetchPackage: 5,
 	sizeOfDishGroup: 4,
 	countOfMinDishGroup: 5,
-	sizeOfShowingDishGroup: 5
+	lengthOfWorkingList: 5,
+	lengthOfPickingList: 12
 }

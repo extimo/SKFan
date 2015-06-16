@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>饭掌柜系统-<%= title%></title>
+
+    <!-- Bootstrap -->
+    <link href="/renders/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+	<body>
+		<div class="container">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 panel panel-default" style="margin-top: 50px">
+				<div class="panel-body">
+					<% include messages %>
+					<form  onsubmit="return charge();" action="/admin/newBalance" method="POST">
+						<div class="form-group">
+							<label for="email">邮箱</label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="email" name="email" autofocus>
+								<span class="input-group-addon">@intel.com</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="amount">金额</label>
+							<div class="input-group">
+								<span class="input-group-addon">￥</span>
+								<input type="text" class="form-control" id="amount" name="amount">
+								<span class="input-group-addon">.00</span>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary">充值</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<footer class="text-center">
+			<small class="text-muted">&copy;2015 intel成都</small>
+		</footer>
+		<script src="/js/jquery-1.11.2.min.js"></script>
+		<script src="/renders/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/js/common.js"></script>
+
+		<script>
+		function charge(){
+			var Email = document.getElementById("email").value + "@intel.com";
+			var Amount = document.getElementById("amount").value;
+			
+			if(!isEmail(Email)){
+				alert("Email格式不对！");
+				return false;
+				}
+			else{
+				if(isNaN(Amount)){
+					alert("金额格式不对，请重新输入");
+					return false;
+				}
+				else return true;
+			}
+
+
+		}
+		</script>
+	</body>
+</html>

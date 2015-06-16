@@ -71,6 +71,16 @@ async.series([
 						type: 'kitchen', 
 						kit: '1'
 					}).save(fn);
+				},
+				function(fn){
+					new User({
+						nick: 'hahaha', 
+						wwid: 12345678, 
+						pass: 'q', 
+						email: 'u', 
+						port: 'default', 
+						type: 'user'
+					}).save(fn);
 				}],
 				function(err, r){
 					if(err){
@@ -95,7 +105,7 @@ async.series([
 					type: 0, 
 					price: 15, 
 					rate: 4, 
-					image: 'd1.jpg'
+					image: 'd1'
 				},
 				{
 					name: '家常菜1', 
@@ -103,7 +113,7 @@ async.series([
 					type: 0, 
 					price: 13, 
 					rate: 3, 
-					image: 'd2.jpg'
+					image: 'd2'
 				},
 				{
 					name: '可乐排骨', 
@@ -111,7 +121,7 @@ async.series([
 					type: 0, 
 					price: 16, 
 					rate: 3, 
-					image: 'd3.jpg'
+					image: 'd3'
 				},
 				{
 					name: '麻辣香锅虾', 
@@ -119,7 +129,7 @@ async.series([
 					type: 0, 
 					price: 17, 
 					rate: 3, 
-					image: 'd4.jpg'
+					image: 'd4'
 				},
 				{
 					name: '花开富贵牡丹鱼片', 
@@ -127,7 +137,7 @@ async.series([
 					type: 0, 
 					price: 19, 
 					rate: 3, 
-					image: 'd5.jpg'
+					image: 'd5'
 				},
 				{
 					name: '红油猪耳', 
@@ -135,7 +145,7 @@ async.series([
 					type: 0, 
 					price: 19, 
 					rate: 3, 
-					image: 'd6.jpg'
+					image: 'd6'
 				},
 				{
 					name: '香辣时蔬烤金鳟鱼', 
@@ -143,7 +153,7 @@ async.series([
 					type: 0, 
 					price: 16, 
 					rate: 3, 
-					image: 'd7.jpg'
+					image: 'd7'
 				},
 				{
 					name: '瘦身麻婆茄子', 
@@ -151,7 +161,7 @@ async.series([
 					type: 0, 
 					price: 13, 
 					rate: 4, 
-					image: 'd8.jpg'
+					image: 'd8'
 				},
 				{
 					name: '蒜泥白肉', 
@@ -159,7 +169,7 @@ async.series([
 					type: 0, 
 					price: 11, 
 					rate: 4, 
-					image: 'd9.jpg'
+					image: 'd9'
 				},
 				{
 					name: '杏仁瓦片', 
@@ -167,7 +177,7 @@ async.series([
 					type: 0, 
 					price: 11, 
 					rate: 4, 
-					image: 'd10.jpg'
+					image: 'd10'
 				},
 				{
 					name: '白菜炒年糕', 
@@ -175,72 +185,57 @@ async.series([
 					type: 0, 
 					price: 11, 
 					rate: 2, 
-					image: 'd11.jpg'
+					image: 'd11'
 				},
-				{
-					name: '焦糖玛奇朵', 
-					ename:'jiao tang ma qi duo', 
-					type: 1, 
-					price: 31, 
-					rate: 4, 
-					image: 'coffee.jpg'
-				},
-				{
-					name: '香草拿铁', 
-					ename:'xiang cao na tie', 
-					type: 1, 
-					price: 30, 
-					rate: 4, 
-					image: 'coffee.jpg'
-				},
-				{
-					name: '拿铁', 
-					ename:'na tie', 
-					type: 1, 
-					price: 27, 
-					rate: 5, 
-					image: 'coffee.jpg'
-				},
-				{
-					name: '卡布奇诺', 
-					ename:'ka bu ji nuo', 
-					type: 1, 
-					price: 27, 
-					rate: 4, 
-					image: 'coffee.jpg'
-				},
-				{
-					name: '摩卡', 
-					ename:'mo ka', 
-					type: 1, 
-					price: 30, 
-					rate: 4, 
-					image: 'coffee.jpg'
-				},
-				{
-					name: '美食咖啡', 
-					ename:'mei shi coffee', 
-					type: 1, 
-					price: 22, 
-					rate: 3, 
-					image: 'coffee.jpg'
-				},
-				{
-					name: '密斯朵咖啡', 
-					ename:'mi si duo coffee', 
-					type: 1, 
-					price: 20, 
-					rate: 3, 
-					image: 'coffee.jpg'
-				},
-				{
-					name: '新鲜调制咖啡', 
-					ename:'mi si duo coffee', 
-					type: 1, 
-					price: 17, 
-					rate: 2, 
-					image: 'coffee.jpg'
-				}
+				{name:'巴黎水', ename:'Perrier',type:1,price:12,rate:3,image:'Perrier'},
+				{name:'依云', ename:'Evian',type:1,price:10,rate:3,image:'Evian'},
+				{name:'屈臣氏苏打水', ename:'Watson Soda',type:1,price:7,rate:3,image:'Watson Soda'},
+				{name:'美式咖啡+面包', ename:'Americano+Bread',type:1,price:10,rate:3,image:'AmericanoBread'},
+				{name:'美式咖啡+三明治', ename:'Americano+Sandwich',type:1,price:12,rate:3,image:'AmericanoSandwich'},
+				{name:'柠檬茶', ename:'Lemon Tea',type:1,price:8,rate:3,image:'Lemon Tea'},
+				{name:'蜜桃红茶拿铁', ename:'Peach Black Tea Latte',type:1,price:15,rate:3,image:'Peach Black Tea Latte'},
+				{name:'奶茶提拉米苏', ename:'Milk Tea Tiramisu',type:1,price:15,rate:3,image:'Milk Tea Tiramisu'},
+				{name:'港式奶茶', ename:'HK Milk Tea',type:1,price:8,rate:3,image:'HK Milk Tea'},
+				{name:'特调奶茶', ename:'Milk Tea',type:1,price:12,rate:3,image:'Milk Tea'},
+				{name:'玫瑰奶茶', ename:'Rose Milk Tea',type:1,price:12,rate:3,image:'Rose Milk Tea'},
+				{name:'原味酸奶', ename:'Plain Yogurt',type:1,price:7,rate:3,image:'Plain Yogurt'},
+				{name:'咖啡冰沙', ename:'Coffee Smoothies',type:1,price:12,rate:3,image:'Coffee Smoothies'},
+				{name:'宇治金时冰沙', ename:'Matcha & Red Bean Smoothies',type:1,price:12,rate:3,image:'Matcha & Red Bean Smoothies'},
+				{name:'韩国蜜柚冰沙', ename:'Honey Pomelo Smoothies',type:1,price:12,rate:3,image:'Honey Pomelo Smoothies'},
+				{name:'阿方索芒果冰沙', ename:'Mango Smoothies',type:1,price:12,rate:3,image:'Mango Smoothies'},
+				{name:'蜂蜜柚子茶', ename:'Honey Citron Tea',type:1,price:10,rate:3,image:'Honey Citron Tea'},
+				{name:'铁观音', ename:'Tikuanyin',type:1,price:12,rate:3,image:'Tikuanyin'},
+				{name:'冻顶乌龙', ename:'Oolong Tea',type:1,price:12,rate:3,image:'Oolong Tea'},
+				{name:'英式红茶', ename:'English Breakfast Tea',type:1,price:6,rate:3,image:'English Breakfast Tea'},
+				{name:'桂花绿茶', ename:'Fragrants Green Tea',type:1,price:12,rate:3,image:'Fragrants Green Tea'},
+				{name:'菊花普洱茶', ename:'Chrysanthemum Pu\'er Tea',type:1,price:12,rate:3,image:'Chrysanthemum Pu\'er Tea'},
+				{name:'冰香草拿铁', ename:'Iced Vanilla Latte',type:1,price:12,rate:3,image:'Iced Vanilla Latte'},
+				{name:'冰焦糖摩卡', ename:'Iced Caramel Mocha',type:1,price:12,rate:3,image:'Iced Caramel Mocha'},
+				{name:'美式冰咖啡', ename:'Iced Americano',type:1,price:8,rate:3,image:'Iced Americano'},
+				{name:'冰拿铁咖啡', ename:'Iced Latte',type:1,price:10,rate:3,image:'Iced Latte'},
+				{name:'冰香蕉摩卡', ename:'Iced Banana Mocha',type:1,price:12,rate:3,image:'Iced Banana Mocha'},
+				{name:'榛果冰拿铁', ename:'Iced Hazelnut Mocha',type:1,price:12,rate:3,image:'Iced Hazelnut Mocha'},
+				{name:'卡布奇诺冰咖啡', ename:'Iced Cappuccino',type:1,price:12,rate:3,image:'Iced Cappuccino'},
+				{name:'奶香巧克力', ename:'Cream Chocolate',type:1,price:10,rate:3,image:'Cream Chocolate'},
+				{name:'卡布奇诺', ename:'Cappuccino',type:1,price:10,rate:3,image:'Cappuccino'},
+				{name:'焦糖玛奇朵', ename:'Caramel Cappuccino',type:1,price:13,rate:3,image:'Caramel Cappuccino'},
+				{name:'榛果拿铁', ename:'Hazelnut Latte',type:1,price:12,rate:3,image:'Hazelnut Latte'},
+				{name:'拿铁', ename:'Latte',type:1,price:10,rate:3,image:'Latte'},
+				{name:'美式咖啡', ename:'Americano',type:1,price:8,rate:3,image:'Americano'},
+				{name:'奶香巧克力', ename:'Cream Chocolate',type:1,price:10,rate:3,image:'Cream Chocolate'},
+				{name:'提拉米苏拿铁', ename:'Tiramisu Latte',type:1,price:15,rate:3,image:'Tiramisu Latte'},
+				{name:'摩卡', ename:'Mocha',type:1,price:13,rate:3,image:'Mocha'},
+				{name:'意式浓缩咖啡', ename:'Espresso',type:1,price:8,rate:3,image:'Espresso'},
+				{name:'越南咖啡', ename:'Vietnam Coffee',type:1,price:12,rate:3,image:'Vietnam Coffee'},
+				{name:'鲜榨芒果汁', ename:'Fresh Mango Juice',type:1,price:12,rate:3,image:'Fresh Mango Juice'},
+				{name:'鲜榨西瓜汁', ename:'Fresh Water malon Juice',type:1,price:10,rate:3,image:'Fresh Water malon Juice'},
+				{name:'鲜榨橙汁', ename:'Fresh Orange Juice',type:1,price:12,rate:3,image:'Fresh Orange Juice'},
+				{name:'鲜榨桃汁', ename:'Kiwi Fruit Juice',type:1,price:12,rate:3,image:'Kiwi Fruit Juice'},
+				{name:'柠檬汁', ename:'Lemon Juice',type:1,price:14,rate:3,image:'Lemon Juice'},
+				{name:'火龙果汁', ename:'Dragon Fruit Juice',type:1,price:14,rate:3,image:'Dragon Fruit Juice'},
+				{name:'鲜榨雪梨汁', ename:'Fresh Pear Juice',type:1,price:10,rate:3,image:'Fresh Pear Juice'},
+				{name:'复合果汁', ename:'Compound Juice',type:1,price:10,rate:3,image:'Compound Juice'},
+
 			];
 			// demo dishes
 			async.series(dishes.map(

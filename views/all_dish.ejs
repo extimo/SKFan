@@ -7,13 +7,10 @@
 	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
 </head>
 
 <style type="text/css">
-
-	.check{
-		display: none;
-	}
 
 	.btn{
         border: none;
@@ -42,17 +39,40 @@
 		color:#bbbbbb!important;
 	}
 
+.icon-remove-sign{
+    display: inline-block;
+    //float:left;
+    position: absolute;
+    margin-top: -25px!important;
+    margin-left: 210px;
+    font-size: 60px;
+    color: #343434;
+    display:none;
+}
+
+.icon-remove-sign:hover{
+    color:#c04;
+}
+
+.check{
+    width:20px;
+    height:20px;
+    position:absolute!important;
+    display:none;
+}
+
 </style>
 <body>
 
 			<div class="dishes" id="dishes">
 				<button class="btn btn-add" id="addall" onclick="">一建增加</button>
+                <button class="btn btn-add" id="addcof" onclick="addAuto()">手动添加</button>
 
 				<% all.forEach(function(dish){ %>
                 <article id="<%= dish.id %>">
-                	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+                	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" style="" onclick="del(this.id)"><label for="checkimg<%= dish.id %>"><i id="iconimg<%= dish.id %>" class="icon-remove-sign"></i></label></div>
                     <div class="dishe_img">
-                        <a href="#"><img src="/images/<%= dish.image%>" alt="" title="" id="img<%= dish.id %>" onclick="onSelect(this.id)"/></a>                  
+                        <a href="javascript:void(0)"><img src="/image/<%= dish.image%>/large" alt="" title="" id="img<%= dish.id %>" onclick="onSelect(this.id)"/></a>                  
                     </div>
                     <div class="dish_info">
                         <a href="#"><h2><%= dish.name %></h2></a>
@@ -70,7 +90,7 @@
 					
 		</div>
 
-	<script src="/assets/js/jquery-1.8.2.min.js"></script>
+	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript">
 
 		function onSelect(obj){
@@ -87,9 +107,10 @@
             var d = document.getElementById(dd);
 
             d.style.display = "none";
-           /* var i = o[o.length-1];
-            var cbox = document.getElementsByName("checkbox");
-            cbox[i-1].checked = false;*/
+        }
+        
+        function addAuto(){      	
+        	top.location = "/admin/addAuto";
         }
 
 
@@ -107,11 +128,6 @@
         		}
         	}
 
-        	/*for(i=0;i<c.length;i++){
-        		alert(c[i]);
-        	}*/
-
-
         	$.ajax({
 	            url:'/dish/set',
 	            type:'POST',
@@ -125,6 +141,7 @@
             	},
         	});
     	});
+
 	});
 
 	</script>

@@ -23,9 +23,12 @@ router.get('/:id/thumb', function(req, res, next) {
 	User.getPortrait(id, function(err, port){
 		if(err){
 			res.end('');
-		}else{
+		}else if(port){
 			var img = path.join(uploadDir, port) + ".thumb.jpg";
 			res.sendFile(img);
+		}
+		else{
+			res.send('');
 		}
 	});
 });

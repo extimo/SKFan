@@ -1,0 +1,57 @@
+.container{
+        padding-top: 20px;
+    }
+
+  .count{
+    width:40px;height:40px;
+    //float:left!important;
+    position:absolute;
+    //margin-left:210px;
+    margin-top: 160px;
+    text-align: center;
+    font-size: 23px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-style: oblique; 
+    color: #000;
+    border-radius: 5px;
+    background-color: #878695;
+    border:solid 3px #789655;
+    //display: none;
+}
+.check{
+    width:1px;height:1px;
+    float:left;
+    position:absolute;
+    margin-left:215px;
+    margin-top: -11px!important;
+}
+
+.dishe_img{
+        border-radius: 10px;
+    }
+
+.dish_info a h2,.dish_info h3{
+    font-size: 20px;
+    font-family: sans-serif;
+
+    color:#434343!important;
+    }
+
+.glyphicon-remove{
+    display: inline-block;
+    //float:left;
+    position: absolute;
+    margin-top: -25px!important;
+    margin-left: -20px;
+    font-size: 40px;
+    color: #343434;
+    display:none;
+}
+
+.glyphicon-remove:hover{
+    color:#c04;
+}
+.thumbnail{
+    padding-top: -20px;
+}

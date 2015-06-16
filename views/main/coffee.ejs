@@ -1,0 +1,121 @@
+<% include mainTmplHeader %>
+	<div class="clearfix" style="min-height:10px"></div>
+	<div id="main" class="row" ng-controller="DishCtrl">
+		<article ng-repeat-start="dish in dishes track by $index" class="col-xs-6 col-sm-4 col-md-3">
+			<div class="thumbnail">
+				<img ng-src="/image/{{dish.image}}/large" alt="{{dish.name}}" title="{{dish.name}}" ng-click="addDish($index)"/>
+				<br>
+				<span class="center-block text-center">
+					<button class="btn btn-sm btn-warning" ng-click="minusDish($index)" ng-if="dish.count > 0">
+						<span class="glyphicon glyphicon-minus"></span>
+					</button>
+					<mark ng-bind="dish.count" ng-if="dish.count > 0"></mark>
+					<button class="btn btn-sm btn-success" ng-click="addDish($index)" ng-class="{'btn-block': !dish.count}">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button> 
+					<button class="btn btn-sm btn-danger" ng-click="removeDish($index)" ng-if="dish.count > 0">
+						<span class="glyphicon glyphicon-remove">
+					</button>
+				</span>
+				<hr>
+				<a title="{{dish.name}}" href="javascript:;">
+					<h3 ng-bind="dish.name"></h3>
+				</a>
+				<h4 class="dish-price ng-cloak" ng-cloak>{{dish.price}}元</h4>
+				<button class="btn btn-link center-block" data-toggle="collapse" href="#collapseMore{{dish.id}}" 
+					aria-expanded="false" aria-controls="collapseMore{{dish.id}}">更多选项</button>
+				<div class="collapse text-center" id="collapseMore{{dish.id}}">
+					<hr>
+					<div class="btn-group" data-toggle="buttons">
+						<button class="btn btn-sm btn-default" ng-click="prepareExtra($index, 0)" 
+							id="btnPredefinedExtra-{{$index}}-0">加糖</button>
+						<button class="btn btn-sm btn-default" ng-click="prepareExtra($index, 1)" 
+							id="btnPredefinedExtra-{{$index}}-1">加奶</button>
+						<button class="btn btn-sm btn-default" ng-click="prepareExtra($index, 2)" 
+							id="btnPredefinedExtra-{{$index}}-2">加热</button>
+					</div>
+					<br><br>
+					<div class="input-group">
+						<input type="text" class="form-control input-sm" ng-model="dish.extra" placeholder="其他需求">
+						<span class="input-group-btn">
+							<button class="btn btn-sm btn-danger" type="button" ng-click="clearExtra($index)">&times;</button>
+						</span>
+					</div>
+					
+				</div>
+			</div>
+		</article>
+		<div class="clearfix" ng-show="$index % colCount == colCount - 1" ng-repeat-end></div>
+		<div class="clearfix"></div>
+		<div class="holder-portrait" ng-show="total > 0"></div>
+		<div class="fixed-bottom order-stats-bar" ng-show="total > 0">
+			<div class="total-price"><span class="ng-cloak" ng-cloak>总价：{{total}}元</span></div>
+			<div class="bottom-buttons pull-right">
+				<button class="btn btn-lg btn-danger bottom-button" ng-click="clearSelections()">清空</button>
+				<button class="btn btn-lg btn-success bottom-button" data-toggle="modal" data-target="#modalConfirmOrder">下单</button>
+			</div>
+		</div>
+		<div class="modal fade" id="modalConfirmOrder">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">确认订单内容</h4>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr class="info">
+									<th>#</th>
+									<th>名称</th>
+									<th>单价</th>
+									<th>数量</th>
+									<th>需求</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="dish in dishes | filter: filterSelected track by $index">
+									<th scope="row" ng-bind="$index + 1"></th>
+									<td ng-bind="dish.name"></td>
+									<td ng-bind="dish.price"></td>
+									<td ng-bind="dish.count"></td>
+									<td ng-bind="dish.extra"></td>
+								</tr>
+								<tr>
+									<td colspan=5 class="text-right">
+										总价：{{total}} 元
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary" id="btnPlace" ng-click="place()" data-loading-text="请稍候…">确定</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<div class="modal fade" id="modalPlaceResult">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="resultTitle"></h4>
+					</div>
+					<div class="modal-body">
+						<p id="resultDetail"></p>
+						<p class="text-center" id="resultExtra"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">了解</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	</div>
+<% include mainTmplFooter %>

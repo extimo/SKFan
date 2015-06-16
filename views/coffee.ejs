@@ -5,8 +5,9 @@
 	<meta charset="utf-8">
 	<meta name="author" content="pixelhint.com">
 	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
-	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no"/>
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/response.css">
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
 
 	<link rel="stylesheet" type="text/css" href="/css/component.css" />
@@ -17,21 +18,23 @@
 <style type="text/css">
 @import url('http://cdn.gbtags.com/font-awesome/4.1.0/css/font-awesome.min.css');
 .btn{
-    	 border: none;
+    	  border: none;
         -webkit-transition:background-color 1s linear;
         -moz-transition:background-color 1s linear;
         -o-transition:background-color 1s linear;
         background-color:#856479;
         color:#FFF;
-        width: 150px;
-        height:50px;
+        //width: 150px;
+        width:75%;
+        height:6.5%;
         border-radius:10px;
         display:block;
-        margin-bottom:20px;
+        margin-bottom:9%;
+        font-size: 0.8em;
 	}
 
 .sidebar{
-    width:200px;
+    width:12%;
     height:100%;
     position:fixed;
     z-index:999;
@@ -44,12 +47,14 @@
     margin-top: -10px;
 }
 .btn:hover{
-        background-color: #865667;
+        background-color: #0071c5!important;
         color:#000;
     }
+
 #dishes{
-	margin-left:200px;
-	width:90%!important;
+	margin-left:12%;
+	width:85%!important;
+	padding-bottom: 30px;
 	overflow-x: hidden!important;
 	position:absolute;
 	z-index:100;
@@ -57,7 +62,20 @@
 .btn-confirm{
 		background-color: #685889;
 		border-radius: 100px!important;
+		height:50px;
+		width:40%;
+		margin-left: 0px;
 }
+
+.btn-submit{
+		width:150px;
+     	height:50px;
+		background-color:#66aedf!important;
+}
+.btn-submit:hover{
+	background-color: #0071c5!important;
+}
+
 .btn-confirm:hover{
         background-color: #865667;
         color:#000;
@@ -93,6 +111,7 @@
 
 .morph-content{
 	border-radius: 10px;
+	background-color: #005092!important;
 }
 
 .profile a img{
@@ -109,22 +128,43 @@
 
 }
 
-#wwid{
-	font-size: 15px;
+#wwid span{
+	font-size: 1em;
 	font-family: sans-serif;
 	color:#bbbbbb;
 	text-align: center;
-	margin-bottom: 30px;
-	margin-left: -50px;
-	//display: none;
+	margin-bottom: 10%;
+	margin-left: -20%;
+	display: inline-block;
+}
+
+footer{
+	width:100%;
+	height:40px;
+	line-height: 40px;
+	overflow: hidden;
+	margin-left: -15%;
+	position:fixed;
+	bottom: 0;
+	background-color: #434343;
+	text-align:center;
+	font-size: 0.8em;
+	font-family: sans-serif;
+	color: #bbbbbb;
 }
 
 .cof-select{
-	text-align: left;
-	padding-left:-50px;
+	margin-top:-20px!important;
+	text-align: center!important;
+	//padding-right:0px!important;
+	//padding-left:-5px!important;
 	font-size: 15px;
 	font-family: sans-serif;
-	color: #bbbbbb;
+	color: #545454;
+}
+
+.dish_info{
+	padding-bottom:10px;
 }
 
 .icon-remove-sign{
@@ -155,14 +195,14 @@
 
 	            <button class="btn btn-default" id="" onclick="fry()">我要点小炒</button>
 	            <button class="btn btn-default" id="" onclick="coffee()">我要点咖啡</button>
-	            <button class="btn btn-default" id="" onclick="#">我要点外卖</button>
-	            <button class="btn btn-default" id="" onclick="#">我要点评</button>
-	            <button class="btn btn-default" id="" onclick="#">餐厅活动</button>
+	            <button class="btn btn-default" id="" onclick="fry()">我要点外卖</button>
+	            <button class="btn btn-default" id="" onclick="myorder()">我的订单</button>
+	            <button class="btn btn-default" id="" onclick="activities()">餐厅活动</button>
 	            <button class="btn btn-default" id="" onclick="logout()">退出</button>
 
 	            <section>
 					<div class="morph-button morph-button-modal morph-button-modal-1 morph-button-fixed">
-						<div style="margin-top:50px;"><button type="button" class="btn btn-confirm" id="" onclick="confirm()">确定订单</button></div>
+						<div style="margin-top:10px;"><button type="button" class="btn btn-confirm" id="" onclick="confirm()">确定订单</button></div>
 
 						<div class="morph-content">
 								<div class="content-style-text" style="text-align:center;">
@@ -172,7 +212,7 @@
 									<hr>
 									<p>确定订单，请输入订单密码：</p>
 									<p><input id="password" class="pass" type="password"/></p>
-									<p><div style="display:inline-block;"><input id="terms" class="btn btn-default" type="button" value="提交订单" onclick="submit()"/></div></p>
+									<p><div style="display:inline-block;"><input id="terms" class="btn btn-submit" type="button" value="提交订单" onclick="submit()"/></div></p>
 								</div>
 						</div>
 					</div>
@@ -187,11 +227,11 @@
                 	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" style="" onclick="del(this.id)"><label for="checkimg<%= dish.id %>"><i id="iconimg<%= dish.id %>" class="icon-remove-sign"></i></label></div>
                 	<div><input id="countimg<%= dish.id %>" type="text" name="count" value="" class="count" readonly></div>
                     <div class="dishe_img">
-                        <a href="#"><img src="/images/<%= dish.image%>" id="img<%= dish.id %>" alt="" title="" onclick="onSelect(this.id)"/></a>                  
+                        <a href="javascript:void(0)"><img src="/image/<%= dish.image%>/large" id="img<%= dish.id %>" alt="" title="" onclick="onSelect(this.id)"/></a>                  
                     </div>
                     <div class="dish_info">
                         <a href="#"><h2><%= dish.name %></h2></a>
-                        <h3><%= dish.price %></h3>
+                        <h3>￥<%= dish.price %></h3>
                     </div>
                     <ul class="rating">
                         <li></li>
@@ -200,13 +240,15 @@
                         <li></li>
                         <li class="no-star"></li>
                     </ul>
-                    <div class="cof-select" id="">
-					<label><input id="" type="checkbox" name="coffeebox" class="" onclick="">加糖</label>
-					<label><input id="" type="checkbox" name="coffeebox" class="" onclick="">加奶</label>
-					<label><input id="" type="checkbox" name="coffeebox" class="" onclick="">加热</label>
+                    <div class="cof-select" id="coffeebox<%= dish.id %>">
+					<label><input id="" type="checkbox" name="coffeebox<%= dish.id %>" class="" onclick="">加糖</label>
+					<label><input id="" type="checkbox" name="coffeebox<%= dish.id %>" class="" onclick="">加奶</label>
+					<label><input id="" type="checkbox" name="coffeebox<%= dish.id %>" class="" onclick="">加热</label>
 					</div>
                 </article>
                 <% }) %>
+
+                <footer>&copy;2015 intel成都</footer>
 
 		</div>
 
@@ -261,7 +303,7 @@
         		if(conf[i].checked){
         			var count = $("#"+conf[i].id).parent().next().children().attr("value");
         			var p = $("#"+conf[i].id).parent().next().next().next().children(":last").html();
-        			var price = p.substring(0,p.length);
+        			var price = p.substring(1,p.length);
         			//alert(price);
         			var temp = count*price;
         			total += temp;
@@ -280,27 +322,58 @@
 			var conf = document.getElementsByName("checkbox");
 			var c = new Array();
 			var d = new Array();
+			var coffs = new Array();
+
 			for(i=0;i<conf.length;i++){
 				if(conf[i].checked){
 					//alert(i);
 					var count = $("#"+conf[i].id).parent().next().children().attr("value");
 					var id = $("#"+conf[i].id).parent().parent().attr("id");
-					//alert(count);
+
+					var cof_id = $("#coffeebox"+id).attr("id");
+					var cofsel = new Array();
+					var temp = new Array("加糖","加奶","加热");
+
+					var cof_box = document.getElementsByName("coffeebox"+id);
+					for(j=0;j<cof_box.length;j++){
+						if(cof_box[j].checked){
+							cofsel[j] = temp[j];
+						}
+						else{
+							cofsel[j] = "";
+						}
+					}
+					var cofstr = "";
+					for(k=0;k<cofsel.length;k++){
+						cofstr += cofsel[k];
+					}
+
 					c.push(count);
-					d.push(id);				
-					//alert(count);
-					//alert(id)
+					d.push(id);
+					coffs.push(cofstr);
 				}
 			}
 
+			/*for(i=0;i<coffs.length;i++){
+				alert(coffs[i]);
+				alert(c[i]);
+				alert(d[i]);
+			}*/
 
-			$.ajax({
+			if((c.length == 0) || (d.length == 0)){
+				alert("订单为空，请重新下订单");
+				top.location = "/coffee";
+			}
+
+			else{
+				$.ajax({
 	            url:'/order/place',
 	            type:'POST',
 	            //dataType:'json',
 	            data:{
 	                counts:c,
 	                ids:d,
+	                extras:coffs,
 	                type:1
 	            },
 	            success: function(data){
@@ -309,6 +382,8 @@
             		top.location = "/coffee";
             	}
         	});
+
+				}
 
 		}
 
@@ -323,6 +398,14 @@
 
 		function fry(){
 			top.location = "/";
+		}
+
+		function myorder(){
+			window.location.href = "/myorder";
+		}
+
+		function activities(){
+			window.location.href = "/activities";
 		}
 
 	</script>
