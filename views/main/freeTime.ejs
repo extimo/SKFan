@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>打烊中…</title>
+
+    <!-- Bootstrap -->
+    <link href="/renders/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/barrage.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container-fluid" id="all">
+    	<div id="mask"></div>
+    	<hr id="hr">
+    	<div id="sender" class="input-group">
+			<span class="input-group-btn">
+				<button onclick="window.location='/'" class="btn btn-default" type="button">返回</button>
+			</span>
+			<input id="content" type="text" class="form-control" placeholder="输入弹幕内容">
+			<span class="input-group-btn">
+				<button id="send" class="btn btn-default" type="button">发送</button>
+			</span>
+		</div>
+    </div>
+	<script src="/js/jquery-1.11.2.min.js"></script>
+	<script src="/renders/bootstrap/js/bootstrap.min.js"></script>
+	<script src="http://ecafe.pub:9529/socket.io/socket.io.js"></script>
+	<script src="/js/barrage.js"></script>
+	<script src="/js/freeTime.js"></script>
+  </body>
+</html>

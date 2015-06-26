@@ -6,10 +6,8 @@ var account = require('./account');
 var multipart = require('connect-multiparty');
 var uploadDir = require('path').join(__dirname, '../upload');
 var auth = require('../lib/middleware/auth');
-/*****************<yemamo>************************/
 var Order = require('../lib/order');
-var redis = require('redis');
-/*****************<yemamo>************************/
+var url = require('url');
 
 /* GET random dishes page. */
 router.get('/random', function(req, res, next) {
@@ -30,8 +28,26 @@ router.get('/coffee', function(req, res, next) {
 		if(err){
 			return next(err);
 		}
-		res.render('main/coffee', {wwid: req.session.wwid, phone: user.phone, title: "咖啡", extraScripts: ["coffee"]});
+		
+		Order.getDeliveryCharge(1, function(err, minCharge){
+			if(err){
+				return next(err);
+			}
+			
+			res.render('main/coffee', {
+				location: req.session.location, 
+				wwid: req.session.wwid, 
+				minCharge: minCharge,
+				phone: user.phone, 
+				title: "咖啡", 
+				extraScripts: ["/js/coffee"]
+			});
+		});
 	});
+});
+
+router.get('/freeTime', function(req, res, next) {
+	res.render('main/freeTime');
 });
 
 /********************<yemao>*********************************/
@@ -39,16 +55,46 @@ router.get('/coffee', function(req, res, next) {
 router.get('/myorder', function(req, res, next) {
 	Order.getWids(req.session.wwid, function(err, orders){
 		if(err) return callback(err);
-		//console.log(orders);
 		User.get(req.session.wwid, function(err, user){
 			if(err){
-			return next(err);
-					}
+				return next(err);
+			}
 
-		res.render('main/myorder', {wwid: req.session.wwid, orders: orders, money: user.balance, status: ["未处理","处理中","处理完毕","已取餐","无法处理"], title: "个人订单", extraScripts: ["myorder"]});
+			res.render('main/myorder', {
+				wwid: req.session.wwid, 
+				orders: orders, 
+				money: user.balance, 
+				status: ["未处理","处理中","处理完毕","已取餐","抱歉，已售罄"], 
+				title: "个人订单",
+				extraScripts: ["/js/myorder"]
+			});
 		});
 	});
 });
+
+/* GET /orderState */
+router.get('/orderState', function(req, res, next) {
+	Order.getPayids(req.session.wwid, function(err,ids){
+		if(err){
+			callback(err);
+		}	
+		
+		Order.getsGroup(1,ids, function(err,order){
+			if(err){
+				console.log("get order error!");
+				callback(err);
+			}
+			
+			res.render('main/orderState', {
+				wwid: req.session.wwid, 
+				order: order,  
+				title: "订单状态", 
+				extraScripts: ["http://ecafe.pub:9527/socket.io/socket.io", "/js/orderState"]
+			});	
+		});
+	});
+});
+
 /********************</yemao>*********************************/
 
 /* GET /activities */

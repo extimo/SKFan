@@ -1,9 +1,10 @@
-<% include mainTmplHeader %>
+<% include mainTmplHeader %>　
 	<div class="clearfix" style="min-height:10px"></div>
 	<div id="main" class="row" ng-controller="DishCtrl">
 		<article ng-repeat-start="dish in dishes track by $index" class="col-xs-6 col-sm-4 col-md-3">
 			<div class="thumbnail">
-				<img ng-src="/image/{{dish.image}}/large" alt="{{dish.name}}" title="{{dish.name}}" ng-click="addDish($index)"/>
+				<img ng-src="/image/{{dish.image}}/large" alt="{{dish.name}}" ng-dbclick="minusDish($index)"
+					ng-class="{'selected': dish.count > 0}"	title="{{dish.name}}" ng-click="addDish($index)"/>
 				<br>
 				<span class="center-block text-center">
 					<button class="btn btn-sm btn-warning" ng-click="minusDish($index)" ng-if="dish.count > 0">
@@ -35,6 +36,15 @@
 							id="btnPredefinedExtra-{{$index}}-2">加热</button>
 					</div>
 					<br><br>
+					<div>
+						<select class="form-control" id="predefinedExtra-{{$index}}-3" ng-model="dish.extraBean" ng-init='dish.extraBean="请选择咖啡豆"'>
+							<option>请选择咖啡豆</option>
+							<option>樱桃豆</option>
+							<option>欧米奇豆</option>
+							<option>意式浓豆</option>
+						</select>
+					</div>
+					<br>
 					<div class="input-group">
 						<input type="text" class="form-control input-sm" ng-model="dish.extra" placeholder="其他需求">
 						<span class="input-group-btn">
@@ -81,7 +91,7 @@
 									<td ng-bind="dish.name"></td>
 									<td ng-bind="dish.price"></td>
 									<td ng-bind="dish.count"></td>
-									<td ng-bind="dish.extra"></td>
+									<td ng-bind='dish.extraBean.replace("请选择咖啡豆", "") + " " + dish.extra'></td>
 								</tr>
 								<tr>
 									<td colspan=5 class="text-right">
@@ -90,10 +100,24 @@
 								</tr>
 							</tbody>
 						</table>
+						<div class="form-group" ng-show="total >= <%= minCharge %>">
+							<label for="location" class="control-label">外送地址(必填)</label>
+							<input type="text" class="form-control" ng-model="location" ng-trim="true"
+								ng-init="location='<%= location %>'" id="location" required>
+						</div>
+						<div class="form-group" ng-show="total >= <%= minCharge %>">
+							<label for="phone" class="control-label">联系电话(必填)</label>
+							<input type="text" class="form-control" id="phone" ng-model="phone"
+								ng-pattern="/^1[3|4|5|7|8][0-9]\d{8}$/" ng-init="phone='<%= phone %>'" required>
+						</div>
+						<span class="lead" ng-if="total < <%= minCharge %>">
+							当前总价未达到起送价格（<%= minCharge %>元）
+						</span>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-						<button type="button" class="btn btn-primary" id="btnPlace" ng-click="place()" data-loading-text="请稍候…">确定</button>
+						<button type="button" class="btn btn-primary" id="btnPlace" ng-click="place()" 
+							ng-disabled="total < <%= minCharge %>" data-loading-text="请稍候…">确定</button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->

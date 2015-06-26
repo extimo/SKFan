@@ -19,6 +19,8 @@ $(function() {
 	me = me == "" ? "coffee" : me;
 	$(".sb-" + me).addClass("active");
 	$(".sb-" + me).unbind("click");
+	
+	$("#hook").hook();
 });
 
 angular.module('SKFanApp', []);

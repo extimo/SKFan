@@ -1,0 +1,14 @@
+hr{
+	margin: 0;
+	margin-bottom: 5px;
+}
+
+.content{
+	position:absolute;
+	font-size:20px;
+	font-weight:bold;
+	white-space:nowrap;
+	line-height:40px;
+	z-index:40;
+	padding: 3px;
+}

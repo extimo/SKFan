@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>饭掌柜系统-<%= title%></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel="stylesheet" href="/renders/bootstrap/css/bootstrap.css">
+    </head>
+<style type="text/css">
+.row{
+    padding: 20px;
+}
+</style>
+
+    <body>
+    <div class="container">
+        <div class="row">
+   
+        <div class="register-container container">
+            <form  method="post" action="/dish/addcof" class="form-horizontal" enctype="multipart/form-data">
+                <input type="hidden" name="dish[type]" value="1">
+              <div class="form-group">
+                <label for="coffeeName">咖啡名</label>
+                <input type="text" class="form-control" id="coffeeName" name="dish[name]" placeholder="coffeeName">
+              </div>
+              <div class="form-group">
+                <label for="coffeePrice">咖啡价格</label>
+                <input type="text" class="form-control" id="coffeePrice" name="dish[price]" placeholder="coffeePrice">
+                <p class="help-block">(请直接输入数字，不要有空格，例如：15)</p>
+              </div>
+              <div class="form-group">
+                <label for="coffeePic">咖啡图片</label>
+                <input type="file" id="coffeePic" name="dish[image]">
+                <p class="help-block">(点击按钮上传咖啡图片)</p>
+              </div>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+
+        </div>
+    </div>   
+
+    </body>
+
+</html>
+

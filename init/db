@@ -79,7 +79,9 @@ async.series([
 						pass: 'q', 
 						email: 'u', 
 						port: 'default', 
-						type: 'user'
+						type: 'user',
+						phone: '18215673541',
+						balance: 0
 					}).save(fn);
 				}],
 				function(err, r){

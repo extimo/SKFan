@@ -7,8 +7,10 @@
 		<script src="/js/jquery-1.11.2.min.js"></script>
 		<script src="/renders/bootstrap/js/bootstrap.min.js"></script>
 		<script src="/js/main.js"></script>
+		<script src="/renders/hook/mousewheel.js"></script>
+		<script src="/renders/hook/hook.js"></script>
 		<% extraScripts.forEach(function(s){ %>
-			<script src="/js/<%= s %>.js"></script>
+			<script src="<%= s %>.js"></script>
 		<% }) %>
 	</body>
 </html>

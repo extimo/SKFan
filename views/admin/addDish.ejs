@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>饭掌柜系统</title>
+	<meta charset="utf-8">
+	<meta name="author" content="pixelhint.com">
+	<meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.css">
+</head>
+
+<style type="text/css">
+
+	.btn{
+        border: none;
+        -webkit-transition:background-color 1s linear;
+        -moz-transition:background-color 1s linear;
+        -o-transition:background-color 1s linear;
+        background-color:#856479;
+        color:#FFF;
+        width: 150px;
+        height:50px;
+        border-radius:10px;
+        display:block;
+        margin-bottom:20px;
+	}
+
+	.btn-add{
+		border-radius: 30px;
+	}	
+
+	.btn-add:hover{
+		background-color: #856490;
+		color: #000;
+	}	
+
+	.dish_info a h2,.dish_info h3{
+		color:#bbbbbb!important;
+	}
+
+.icon-remove-sign{
+    display: inline-block;
+    //float:left;
+    position: absolute;
+    margin-top: -25px!important;
+    margin-left: 210px;
+    font-size: 60px;
+    color: #343434;
+    display:none;
+}
+
+.icon-remove-sign:hover{
+    color:#c04;
+}
+
+.check{
+    width:20px;
+    height:20px;
+    position:absolute!important;
+    display:none;
+}
+
+</style>
+<body>
+
+			<div class="dishes" id="dishes">
+				<button class="btn btn-add" id="addall" onclick="">一建增加</button>
+                <button class="btn btn-add" id="addcof" onclick="addAuto()">手动添加</button>
+
+				<% all.forEach(function(dish){ %>
+                <article id="<%= dish.id %>">
+                	<div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" style="" onclick="del(this.id)"><label for="checkimg<%= dish.id %>"><i id="iconimg<%= dish.id %>" class="icon-remove-sign"></i></label></div>
+                    <div class="dishe_img">
+                        <a href="javascript:void(0)"><img src="/image/<%= dish.image%>/large" alt="" title="" id="img<%= dish.id %>" onclick="onSelect(this.id)"/></a>                  
+                    </div>
+                    <div class="dish_info">
+                        <a href="#"><h2><%= dish.name %></h2></a>
+                        <h3><%= dish.price %></h3>
+                    </div>
+                    <ul class="rating">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li class="no-star"></li>
+                    </ul>
+                </article>
+                <% }) %>
+					
+		</div>
+
+	<script src="/js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript">
+
+		function onSelect(obj){
+
+                var dd = $("#"+"check"+obj).attr("id");
+                var d = document.getElementById(dd);
+
+                d.checked = true;
+                d.style.display = "block";
+            }
+
+        function del(o){
+            var dd = $("#"+o).attr("id");
+            var d = document.getElementById(dd);
+
+            d.style.display = "none";
+        }
+        
+        function addAuto(){      	
+        	top.location = "/admin/addAuto";
+        }
+
+
+
+		$(document).ready(function(){
+
+		  $("#addall").click(function() {
+			
+			var c = new Array();
+        	var x = document.getElementsByName("checkbox");
+
+        	for(i=0;i<x.length;i++){
+        		if(x[i].checked){
+        		 c.push(x[i].parentNode.parentNode.attributes['id'].value);
+        		}
+        	}
+
+        	$.ajax({
+	            url:'/dish/set',
+	            type:'POST',
+	            dataType:'json',
+	            data:{
+	                ids:c
+	            },
+	            success: function(data){
+            		alert("添加成功！");
+                    top.location = "/admin";
+            	},
+        	});
+    	});
+
+	});
+
+	</script>
+	
+
+</body>
+</html>

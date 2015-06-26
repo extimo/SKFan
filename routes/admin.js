@@ -4,8 +4,6 @@ var User = require('../lib/user');
 var Dish = require('../lib/dish');
 var Order = require('../lib/order');
 
-var Order = require('../lib/order');
-
 /* GET admin pages */
 router.get('/', function(req, res, next) {
 	Dish.getCurrentType(0, function(err, c_dishes0){
@@ -17,12 +15,50 @@ router.get('/', function(req, res, next) {
 			if(err){
 				return next(err);
 			}
-	
-	
-			Order.getValveLock(1, function(lock){
-				res.render('today_dish', {valve: lock, actionName: lock ? '开张' : '打烊', current: [c_dishes0, c_dishes1]});
+			res.render('admin/index', {current: [c_dishes0, c_dishes1]});
+		});
+	});
+});
+
+/* GET setting pages */
+router.get('/setting', function(req, res, next) {
+	Order.getValveLock(1, function(lock){
+		Order.getDeliveryTime(1, function(err, DeliveryTime){
+			if(err){
+				return next(err);
+			}
+			Order.getDeliveryCharge(1, function(err, minCharge){
+				if(err){
+					return next(err);
+				}
+			
+				res.render('admin/setting', {valve: lock, start: DeliveryTime[0] || '', end: DeliveryTime[1] || '', minCharge: minCharge || ''});
 			});
 		});
+	});
+});
+
+/* POST set delivery time */
+router.post('/setDeliveryTime', function(req, res, next) {
+	Order.setDeliveryTime(1, req.body.start, req.body.end, function(err){
+		if(err){
+			return next(err);
+		}
+		
+		res.success('设置成功！');
+		res.redirect('back');
+	});
+});
+
+/* POST set delivery minimum charge */
+router.post('/setDeliveryCharge', function(req, res, next) {
+	Order.setDeliveryCharge(1, req.body.minCharge, function(err){
+		if(err){
+			return next(err);
+		}
+		
+		res.success('设置成功！');
+		res.redirect('back');
 	});
 });
 
@@ -44,19 +80,19 @@ router.get('/add', function(req, res, next) {
 				}, 0);
 				return in_c == 0;
 			});
-			res.render('all_dish', {all: dishes});
+			res.render('admin/addDish', {all: dishes});
 		});
 	});
 });
 
-router.post('/toggle/:type', function(req, res, next){
-	console.log(req.params.type);
+router.get('/toggle/:type', function(req, res, next){
 	Order.toggleValve(req.params.type, function(err){
 		if(err){
 			return next(err);
 		}
 		else{
-			res.redirect('/admin');
+			res.success('设置成功！');
+			res.redirect('back');
 		}
 	});
 });
@@ -65,7 +101,7 @@ router.post('/toggle/:type', function(req, res, next){
 /********************<yemao>*********************************/
 /* GET addAuto page*/
 router.get('/addAuto', function(req, res, next) {
-	res.render('addAuto', {title: "添加咖啡"});
+	res.render('admin/addAuto', {title: "添加咖啡"});
 });
 
 /* GET allOrder page*/
@@ -77,43 +113,38 @@ router.get('/allOrder', function(req, res, next) {
 			return callback(err);
 			}
 			
-		res.render('allOrder', {title: "订单记录", orders: orders, extraScripts: []});
+		res.render('admin/allOrder', {title: "订单记录", orders: orders, extraScripts: []});
 		});		
 	});
 });
 
 /* GET charge page*/
 router.get('/charge', function(req, res, next) {
-	res.render('charge', {title: "充值"});
+	res.render('admin/charge', {title: "充值"});
 });
 
 /* renew balance for user*/
 router.post('/newBalance', function(req, res, next){
 	var amount = parseInt(req.body.amount);
 	var email = req.body.email;
-	console.log(amount + " " + email);
 
 	User.getId(email, function(err, id){
-		if(err){
-			console.log("email in not in");
+		if(!id){
 			res.error("eamil 不存在！");
 			res.redirect("back");
-			//return callback(err);
+		}			
+		else{
+			User.inCharge(id, amount, function(err){
+				if(err){
+					return callback(err);
+				}
+				res.error("充值成功!");
+				res.redirect("back");
+			});
 		}	
-		
-		User.inCharge(id, amount, function(err, callback){
-			if(err){
-				console.log("inCharge error");
-				return callback(err);
-			}
-			res.success("充值成功!");
-			res.redirect('/admin');
-		});			
 	});
 
 });
-
-
 
 /********************</yemao>*********************************/
 

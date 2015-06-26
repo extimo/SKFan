@@ -77,14 +77,22 @@ function addcof(dir){
 				
 				dish.image = name;
 				dish.save(function(err){
-					returnStatus(res, err);
+					//returnStatus(res, err);
+					if(err){
+						console.log("add coffee error");
+					}
+					res.redirect('/admin');
 					});
 			});	
 		}
 	else{
 		fs.unlinkSync(req.files.dish.image.path);
 		dish.save(function(err){
-			returnStatus(res, err);	
+			//returnStatus(res, err);
+			if(err){
+				console.log("add coffee error");
+			}
+			res.redirect('/admin');	
 			});
 		}
 	};

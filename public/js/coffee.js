@@ -48,12 +48,11 @@ app.controller('DishCtrl', function($scope){
 	};
 	
 	$scope.prepareExtra = function(i, e){
-		var extra = "";
 		if(!$scope.dishes[i].predefinedExtra){
 			$scope.dishes[i].predefinedExtra = [];
 		}
-		$scope.dishes[i].predefinedExtra[e] = $scope.dishes[i].predefinedExtra[e] ? 
-			!$scope.dishes[i].predefinedExtra[e] : true;
+		var extra = "";
+		$scope.dishes[i].predefinedExtra[e] = !$scope.dishes[i].predefinedExtra[e];
 		
 		if($scope.dishes[i].predefinedExtra[1]){
 			extra += "加奶 ";
@@ -66,9 +65,6 @@ app.controller('DishCtrl', function($scope){
 		}
 		if($scope.dishes[i].extra){
 			extra = extra + $scope.dishes[i].extra.replace("加奶 ", "").replace("加热 ", "").replace("加糖 ", "");
-		}
-		if(extra.length == 0){
-			extra = null;
 		}
 		$scope.dishes[i].extra = extra;
 	};
@@ -87,7 +83,7 @@ app.controller('DishCtrl', function($scope){
 		$("#modalConfirmOrder").modal('hide');
 		$('#resultTitle').text('下单成功');
 		$('#resultDetail').text('您的订单正在以光速处理中…');
-		$('#resultExtra').html("<a href='/myorder'>转到我的订单</a>");
+		$('#resultExtra').html("<a href='/orderState'>转到我的订单</a>");
     	$('#modalPlaceResult').modal('show');
 		setTimeout("$('#modalPlaceResult').modal('hide')", 5000);
 	};
@@ -97,11 +93,22 @@ app.controller('DishCtrl', function($scope){
 		$("#btnPlace").button('reset');
 		$("#modalConfirmOrder").modal('hide');
 		$('#resultTitle').text('下单失败');
+		$('#resultExtra').html("<a href='/freeTime'>去吐槽</a>");
 		$('#resultDetail').text(info);
 		$('#modalPlaceResult').modal('show');
 	};
 	
 	$scope.place = function(){
+		$("#location").parent().removeClass("has-error");
+		$("#phone").parent().removeClass("has-error");
+		if(!$scope.location){
+			$("#location").parent().addClass("has-error");
+			return;
+		}
+		if(!$scope.phone){
+			$("#phone").parent().addClass("has-error");
+			return;
+		}
 		$("#btnPlace").button('loading');
 		
 		var ids = [], counts = [], extras = [];
@@ -109,7 +116,9 @@ app.controller('DishCtrl', function($scope){
 			if(dish.count > 0){
 				ids.push(dish.id);
 				counts.push(dish.count);
-				extras.push(dish.extra);
+				var extra = dish.extraBean.replace("请选择咖啡豆", "") + " " + (dish.extra || "");
+				extra = extra.trim();
+				extras.push(extra);
 			}
 		});
 		
@@ -120,6 +129,8 @@ app.controller('DishCtrl', function($scope){
                 counts: counts,
                 ids: ids,
                 extras: extras,
+                phone: $scope.phone,
+                location: $scope.location,
                 type: 1
             },
             success: function(data){
@@ -134,7 +145,7 @@ app.controller('DishCtrl', function($scope){
             error: function(){
 	        	showFail('未知原因');
         	}
-    	});
+    	});	  	
 	};
 	
 	$scope.clearExtra = function(i){

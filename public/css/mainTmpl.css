@@ -104,7 +104,7 @@ a.dish-name {
   bottom: 0;
 }
 .order-stats-bar {
-  height: 80px;
+  height: 50px;
   background-color: #0062a8;
   color: #fff;
   border: 0;
@@ -114,13 +114,13 @@ footer {
   margin-bottom: 20px;
 }
 .total-price {
-  font-size: 36px;
-  margin-top: 16px;
+  font-size: 24px;
+  margin-top: 12px;
   margin-left: 10px;
   display: inline-block;
 }
 .bottom-buttons {
-  margin-top: 16px;
+  margin-top: 3px;
   margin-right: 10px;
   display: inline-block;
 }
@@ -129,4 +129,38 @@ footer {
 }
 .holder-portrait{
 	min-height: 50px;
+}
+
+.selected{
+	-webkit-animation: glowing 1.5s ease-in-out infinite alternate;
+	-moz-animation: glowing 1.5s ease-in-out infinite alternate;
+	animation: glowing 1.5s ease-in-out infinite alternate;
+	border: 0;
+}
+
+@-webkit-keyframes glowing {
+  from {
+	box-shadow: 0 0 5px rgba(0,100,255,.2);
+  }
+  to {
+	box-shadow: 0 0 20px rgba(0,100,255,.6);
+  }
+}
+
+@-moz-keyframes glowing {
+  from {
+	box-shadow: 0 0 5px rgba(0,100,255,.2);
+  }
+  to {
+	box-shadow: 0 0 20px rgba(0,100,255,.6);
+  }
+}
+
+@keyframes glowing {
+  from {
+	box-shadow: 0 0 5px rgba(0,100,255,.2);
+  }
+  to {
+	box-shadow: 0 0 20px rgba(0,100,255,.6);
+  }
 }

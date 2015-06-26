@@ -17,9 +17,11 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="/css/mainTmpl.css" rel="stylesheet">
+    <link rel="stylesheet" href="/renders/hook/hook.css" type="text/css" />
     <script src="/renders/angular/angular.min.js"></script>
   </head>
 	<body>
+		<div class="hook" id="hook"></div>
 		<div class="container-fluid" id="all">
 			<div class="row">
 				<div class="col-xs-12 sidebar-xs-container hidden-landscape collapse" id="sidebar-xs">
@@ -42,7 +44,7 @@
 					<div class="list-group sidebar sidebar-lg">
 						<a href="/myorder" class="list-group-item list-group-item-static">
 							<img src="/port/<%= wwid  %>/thumb" class="img-responsive"/>
-							<span>WWID:<%= wwid %></span>
+							<span><%= wwid %></span>
 						</a>
 						<% include mainSidebarContent %>
 					</div>

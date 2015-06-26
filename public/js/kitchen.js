@@ -4,7 +4,7 @@ app.run(function(amMoment) {
 });
 
 app.factory('socket', function($rootScope){
-	var socket = io.connect('http://ecafe.pub:9527');
+	var socket = io.connect('http://ecafe.pub:9527/kitchen');
 	return {
 		on: function(eventName, callback){
 			socket.on(eventName, function(){
@@ -32,8 +32,6 @@ app.controller('ListCtrl', function($scope, $timeout, socket){
 	$scope.workingList = [];
 	$scope.pickingList = [];
 	$scope.disconnected = true;
-	$scope.isInFullScreen = (document.fullScreenElement && document.fullScreenElement !== null) ||    // alternative standard method  
-	(document.mozFullScreen || document.webkitIsFullScreen);
 	
 	var play = function(){
 		if($scope.browserIE){
@@ -71,46 +69,53 @@ app.controller('ListCtrl', function($scope, $timeout, socket){
 	$scope.timeoutCheckConnection = $timeout($scope.checkConnection, lapseCheckConnection);
 	$scope.timeoutFlipDisconnected = $timeout($scope.flipDisconnected, lapseFlipDisconnected);
 	
-	socket.on('workingList', function(data){
+	socket.on('list', function(data){
 		if(data.newly){
 			play();
 		}
-		$scope.workingList = data.list;
-	});
-	
-	socket.on('pickingList', function(list){
-		$scope.pickingList = list;
+		if(data.dataPicking){	
+			$scope.pickingList = data.dataPicking.list;
+			$scope.pickingListLength = data.dataPicking.len;
+		}
+		if(data.dataWorking){	
+			$scope.workingList = data.dataWorking.list;
+			$scope.workingListLength = data.dataWorking.len;
+		}
 	});
 	
 	socket.on('pong', function(conformType){
 		if(conformType != type){
-			socket.emit('join', type);
 			return;
 		}
 		$scope.disconnected = false;
 	});
 	
+	socket.on('barrage', function(text){
+		if($scope.valveLock){
+			barrage("#workingList", text);
+		}
+	});
+	
+	socket.on('alert', function(){
+		if($scope.valveLock){
+			barrage("#all", "提示：目前打烊中", true, 15000, "#ff0000", 40);
+		}
+	});
+	
 	$scope.remind = function(id){
-		socket.emit('finishOrder', id);
+		socket.emit('finish', id);
 	}
 	
 	$scope.prepareCancel = function(index){
-		$scope.$broadcast('confirm', $scope.workingList[index]);
+		$scope.order = $scope.workingList[index];
+	}
+	
+	$scope.cancel = function(){
+		socket.emit('cancel', {id: $scope.order.id, remove: $scope.cancelWithRemove});
 	}
 	
 	$scope.full = function(){
 		launchFullScreen();
-		$scope.isInFullScreen = true;
-	}
-});
-
-app.controller('modalCtrl', function($scope, socket){
-	$scope.$on('confirm', function(evt, order){
-		$scope.order = order;
-	});
-	
-	$scope.cancel = function(){
-		socket.emit('cancelOrder', $scope.order.id);
 	}
 });
 
@@ -139,4 +144,3 @@ function launchFullScreen(element) {
 		}
 	}
 }
-

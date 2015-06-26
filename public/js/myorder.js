@@ -1,12 +1,3 @@
-/*var app = angular.module('SKFanApp');
-
-app.controller('OrderCtrl', function($scope){
-	$scope.getCof = function(id){
-		//var value = $("#btngetCof").attr(text);
-		alert(id);
-		$("button").text("已取餐");
-	};
-});*/
 
 window.onload = function(){ 
 
@@ -49,7 +40,7 @@ window.onload = function(){
 function getCof(id){
 	//$("#"+id).text("已取餐");
 	//$("#"+id).css("background-color","#bbbbbb");
-	$('#'+id).attr("disabled",true); ;
+	$('#'+id).attr("disabled",true);
 
 	var id = id.substring(9,id.length);
 
@@ -74,3 +65,21 @@ function getCof(id){
         	}
     	});
 }
+
+function orderState(){
+    location.href='/orderState';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

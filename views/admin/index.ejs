@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+        <meta charset="utf-8">
+        <title>饭掌柜系统</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta charset="utf-8">
+
+        <meta name="author" content="pixelhint.com">
+        <meta name="description" content="Resto HTML5/CSS3 Restaurant Home Page website Template"/>
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+
+        <!--<link rel="shortcut icon" href="../favicon.ico">-->
+        <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="/css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="/css/component.css" />
+        <link rel="stylesheet" type="text/css" href="/css/content.css" />
+        <link href="/renders/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script src="/js/modernizr.custom.js"></script>
+
+        <!-- CSS -->
+       <!-- <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Oleo+Script:400,700'>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">-->
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+</head>
+
+<style type="text/css">
+
+    body {
+          font-family: "Classic Grotesque W01","Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",Arial,SimSun,sans-serif;
+          position: relative;
+          text-align: center;
+          background-color: #475478;
+        }
+
+    .dishes{
+        margin-top:-50px;
+    }
+
+    .select{
+        text-align:center;
+        padding-left:40%;
+        padding-top: 30px;
+        height:1000px;
+        background-color:#673267;
+    }
+    #carten,#sellbar,#coffee{
+        border: none;
+        -webkit-transition:background-color 1s linear;
+        -moz-transition:background-color 1s linear;
+        -o-transition:background-color 1s linear;
+        background-color:#783758!important;
+        color:#FFF;
+        width: 100px;
+        height:100px;
+        border-radius:50px;
+        display:inline-block;
+    }
+    #carten:hover{
+        background-color: #c04564!important;
+        color:#000!important;
+    }
+    #sellbar:hover{
+        background-color: #c04564!important;
+        color:#000!important;
+    }
+    #coffee:hover{
+        background-color: #c04564!important;
+        color:#000!important;
+    }
+    #carten-child{
+        
+    }
+
+    #coffeebar-child{
+        text-align: left;
+        //padding-left: -50px;
+    }
+.btn{
+        border: none;
+        -webkit-transition:background-color 1s linear;
+        -moz-transition:background-color 1s linear;
+        -o-transition:background-color 1s linear;
+        background-color:#856479!important;
+        color:#FFF;
+        width: 150px;
+        height:50px;
+        border-radius:10px;
+        display:block;
+        margin-bottom:20px;
+}
+.sidebar{
+    width:200px;
+    height:100%;
+    position:fixed;
+    background-color:#434343!important;
+    text-align: center;
+    float:left;
+    padding-left: 20px;
+    padding-top: 50px;
+}
+
+.check{ 
+	width:20px;
+	height:20px;
+    margin-left:210px!important;
+    //margin-top: 0px!important;
+    position:absolute;
+    display:none;
+}
+
+.btn-del,.btn-add{
+    width:80px;
+    height:50px;
+    background-color: #975657;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.btn-del:hover{
+    background-color: #978889;
+}
+
+.btn-add:hover{
+    background-color: #978889;
+}
+   
+</style>
+
+    <body>
+
+        <!--<div class="register-container container">-->
+        <div class="sidebar">
+            <button class="btn btn-default" id="" onclick="logout()">退出</button>
+            <button class="btn btn-default" id="" onclick="#">菜单录入</button>
+            <button class="btn btn-default" id="" onclick="#">统计分析</button>
+            <button class="btn btn-default" id="" onclick="charge()">出卡/充值</button>
+            <button class="btn btn-default" id="" onclick="#">权限管理</button>
+            <button class="btn btn-default" id="" onclick="orderPage()">订单记录</button>
+        	<button class="btn btn-default" onclick="setting()">杂项设置</button>
+        </div>
+
+          <div class="select" id="" style="">
+
+            <!-------------------------------------cartin--------------------------------------------- -->
+            <div style="display:block;text-align:left;">
+            <button class="btn btn-default" id="carten" onclick="carten()">食堂</button>
+
+              <div class="" id="carten-child" style="display:none;">
+
+                <!--<section>-->
+                <div class="morph-button morph-button-overlay morph-button-fixed btn1" style="display:inline-block;">
+                    <button type="button">小炒</button>
+                    <div class="morph-content">
+                        <div>
+                            <div class="content-style-overlay">
+                                <span class="icon icon-close">Close the overlay</span>
+
+                                    <div class="dishes" id="">
+                                        <button class="btn btn-del" id="delete" onclick="delAll()" style="float:left;margin-right:30px;">删除菜单</button>
+                                        <button class="btn btn-add" id="add" onclick="add()">添加菜单</button>
+
+                                        <% current[0].forEach(function(dish){ %>
+                                        <article id="<%= dish.id %>">
+                                            <div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+                                            <div class="dishe_img">
+                                                <a href="javascript:void(0)"><img src="/image/<%= dish.image%>/large" id="img<%= dish.id %>" onclick="onSelect(this.id)"/></a>                  
+                                            </div>
+                                            <div class="dish_info">
+                                                <a href="#"><h2><%= dish.name %></h2></a>
+                                                <h3><%= dish.price %></h3>
+                                            </div>
+                                            <ul class="rating">
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                                <li class="no-star"></li>
+                                            </ul>
+                                        </article>
+                                        <% }) %>
+
+                                    </div><!--end-dishes-->
+                      
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- morph-button -->        
+                <!--</section>-->
+
+                <!--<section>-->
+                <div class="morph-button morph-button-overlay morph-button-fixed btn2" style="display:inline-block;">
+                    <button type="button">零点</button>
+                    <div class="morph-content">
+                        <div>
+                            <div class="content-style-overlay">
+                                <span class="icon icon-close">Close the overlay</span>
+                                WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- morph-button -->        
+                <!--</section>-->
+
+                <div class="morph-button morph-button-overlay morph-button-fixed btn3" style="display:inline-block;">
+                    <button type="button">面食</button>
+                    <div class="morph-content">
+                        <div>
+                            <div class="content-style-overlay">
+                                <span class="icon icon-close">Close the overlay</span>
+                                WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               </div>
+              </div>
+
+            <!-------------------------------------coffeeBar--------------------------------------------- -->
+            <div style="display:block;text-align:center;">
+                <button class="btn btn-default" id="coffee" style="display:block;"onclick="coffeeBar()">咖啡厅</button>
+
+                <div class="" id="coffeebar-child" style="display:none;">
+
+                <!--<section>-->
+                <div class="morph-button morph-button-overlay morph-button-fixed btn4" style="display:inline-block;">
+                    <button type="button">咖啡</button>
+                    <div class="morph-content">
+                        <div>
+                            <div class="content-style-overlay">
+                                <span class="icon icon-close">Close the overlay</span>
+
+                                    <div class="dishes" id="">
+                                        <button class="btn btn-del" id="deleteC" onclick="delAllCof()" style="float:left;margin-right:30px;">删除咖啡</button>
+                                        <button class="btn btn-add" id="addC" onclick="addCof()">添加咖啡</button>
+
+                                        <% current[1].forEach(function(dish){ %>
+                                        <article id="<%= dish.id %>">
+                                            <div><input id="checkimg<%= dish.id %>" type="checkbox" name="checkbox" class="check" onclick="del(this.id)"></div>
+                                            <div class="dishe_img">
+                        					<a href="javascript:void(0)"><img src="/image/<%= dish.image%>/large" alt="" title="" id="img<%= dish.id %>" onclick="onSelect(this.id)"/></a>                  
+                    </div>
+                                            <div class="dish_info">
+                                                <a href="#"><h2><%= dish.name %></h2></a>
+                                                <h3><%= dish.price %></h3>
+                                            </div>
+                                            <ul class="rating">
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                                <li></li>
+                                                <li class="no-star"></li>
+                                            </ul>
+                                        </article>
+                                        <% }) %>
+
+                                    </div><!--end-dishes-->
+                      
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- morph-button -->        
+                <!--</section>-->
+
+              </div>
+            </div>
+
+            <!-------------------------------------sellBar--------------------------------------------- -->
+            <div style="display:block;text-align:center;">
+                <button class="btn btn-default" id="sellbar" style="display:block;"oncleck="sellBar()">小卖部</button>
+            </div>
+          </div>
+           
+        </div>
+
+
+	<script src="/js/jquery-1.11.2.min.js"></script>
+	
+	<script type="text/javascript">
+        function carten(){
+            var car=document.getElementById("carten-child");
+            if(car.style.display == "none"){
+                car.style.display = "block";
+            }
+            else{
+                car.style.display = "none";
+            }
+        }
+
+        function coffeeBar(){
+            var cof=document.getElementById("coffeebar-child");
+            if(cof.style.display == "none"){
+                cof.style.display = "block";
+            }
+            else{
+                cof.style.display = "none";
+            }
+        }
+
+        function onSelect(obj){
+                var dd = $("#"+"check"+obj).attr("id");
+                var d = document.getElementById(dd);
+
+                d.checked = true;
+                d.style.display = "block";
+            }
+
+        function del(o){
+            var dd = $("#"+o).attr("id");
+            var d = document.getElementById(dd);
+
+            d.style.display = "none";
+        }
+
+        function delAll(){
+        	    
+            var del = document.getElementsByName("checkbox");
+            var c = new Array();
+
+            for(i=0;i<del.length;i++){
+                if(del[i].checked){
+					c.push(del[i].parentNode.parentNode.attributes['id'].value);
+                    var par = del[i].parentNode.parentNode; 
+                    par.style.display = "none";                 
+                }
+            }
+            
+            
+            $.ajax({
+                url:'/dish/unset',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    ids:c
+                },
+                success: function(data){
+                    alert("删除成功！");
+                },
+            });
+        }
+        
+        function delAllCof(){
+                
+            var del = document.getElementsByName("checkbox");
+            var c = new Array();
+
+            for(i=0;i<del.length;i++){
+                if(del[i].checked){
+                    c.push(del[i].parentNode.parentNode.attributes['id'].value);
+                    var par = del[i].parentNode.parentNode; 
+                    par.style.display = "none";                 
+                }
+            }
+            
+            
+            $.ajax({
+                url:'/dish/unset',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    ids:c
+                },
+                success: function(data){
+                    alert("删除成功！");
+                },
+            });
+        }
+
+        function add(){
+            top.location = "/admin/add?type=0";
+        }
+
+        function addCof(){
+            top.location = "/admin/add?type=1";
+        }
+
+        function logout(){
+            top.location = "/account/signout";
+        }
+        
+        function orderPage(){
+            top.location = "/admin/allOrder";
+        }
+        
+        function charge(){
+            top.location = "/admin/charge";
+        }
+        
+        function setting(){
+            top.location = "/admin/setting";
+        }
+
+</script>
+
+
+
+
+        <script src="/js/classie.js"></script>
+        <script src="/js/uiMorphingButton_fixed.js"></script>
+        <script>
+            (function() {   
+                var docElem = window.document.documentElement, didScroll, scrollPosition;
+
+                // trick to prevent scrolling when opening/closing button
+                function noScrollFn() {
+                    window.scrollTo( scrollPosition ? scrollPosition.x : 0, scrollPosition ? scrollPosition.y : 0 );
+                }
+
+                function noScroll() {
+                    window.removeEventListener( 'scroll', scrollHandler );
+                    window.addEventListener( 'scroll', noScrollFn );
+                }
+
+                function scrollFn() {
+                    window.addEventListener( 'scroll', scrollHandler );
+                }
+
+                function canScroll() {
+                    window.removeEventListener( 'scroll', noScrollFn );
+                    scrollFn();
+                }
+
+                function scrollHandler() {
+                    if( !didScroll ) {
+                        didScroll = true;
+                        setTimeout( function() { scrollPage(); }, 60 );
+                    }
+                };
+
+                function scrollPage() {
+                    scrollPosition = { x : window.pageXOffset || docElem.scrollLeft, y : window.pageYOffset || docElem.scrollTop };
+                    didScroll = false;
+                };
+
+                scrollFn();
+
+                /****************btn1-overlay****************************/
+                var el = document.querySelector( '.btn1' );
+                
+                new UIMorphingButton( el, {
+                    closeEl : '.icon-close',
+                    onBeforeOpen : function() {
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterOpen : function() {
+                        // can scroll again
+                        canScroll();
+                        // add class "noscroll" to body
+                        classie.addClass( document.body, 'noscroll' );
+                        // add scroll class to main el
+                        classie.addClass( el, 'scroll' );
+                    },
+                    onBeforeClose : function() {
+                        // remove class "noscroll" to body
+                        classie.removeClass( document.body, 'noscroll' );
+                        // remove scroll class from main el
+                        classie.removeClass( el, 'scroll' );
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterClose : function() {
+                        // can scroll again
+                        canScroll();
+                    }
+                } );
+                
+                /****************btn2-overlay****************************/
+                var e2 = document.querySelector( '.btn2' );
+                
+                new UIMorphingButton( e2, {
+                    closeEl : '.icon-close',
+                    onBeforeOpen : function() {
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterOpen : function() {
+                        // can scroll again
+                        canScroll();
+                        // add class "noscroll" to body
+                        classie.addClass( document.body, 'noscroll' );
+                        // add scroll class to main el
+                        classie.addClass( e2, 'scroll' );
+                    },
+                    onBeforeClose : function() {
+                        // remove class "noscroll" to body
+                        classie.removeClass( document.body, 'noscroll' );
+                        // remove scroll class from main el
+                        classie.removeClass( e2, 'scroll' );
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterClose : function() {
+                        // can scroll again
+                        canScroll();
+                    }
+                } );
+                
+                /****************btn3-overlay****************************/
+                var e3 = document.querySelector( '.btn3' );
+                
+                new UIMorphingButton( e3, {
+                    closeEl : '.icon-close',
+                    onBeforeOpen : function() {
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterOpen : function() {
+                        // can scroll again
+                        canScroll();
+                        // add class "noscroll" to body
+                        classie.addClass( document.body, 'noscroll' );
+                        // add scroll class to main el
+                        classie.addClass( e3, 'scroll' );
+                    },
+                    onBeforeClose : function() {
+                        // remove class "noscroll" to body
+                        classie.removeClass( document.body, 'noscroll' );
+                        // remove scroll class from main el
+                        classie.removeClass( e3, 'scroll' );
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterClose : function() {
+                        // can scroll again
+                        canScroll();
+                    }
+                } );
+
+                /****************btn4-overlay****************************/
+                var e4 = document.querySelector( '.btn4' );
+                
+                new UIMorphingButton( e4, {
+                    closeEl : '.icon-close',
+                    onBeforeOpen : function() {
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterOpen : function() {
+                        // can scroll again
+                        canScroll();
+                        // add class "noscroll" to body
+                        classie.addClass( document.body, 'noscroll' );
+                        // add scroll class to main el
+                        classie.addClass( e4, 'scroll' );
+                    },
+                    onBeforeClose : function() {
+                        // remove class "noscroll" to body
+                        classie.removeClass( document.body, 'noscroll' );
+                        // remove scroll class from main el
+                        classie.removeClass( e4, 'scroll' );
+                        // don't allow to scroll
+                        noScroll();
+                    },
+                    onAfterClose : function() {
+                        // can scroll again
+                        canScroll();
+                    }
+                } );
+            })();
+        </script>
+
+        
+    </body>
+
+</html>
+
