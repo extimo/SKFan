@@ -1,0 +1,5 @@
+# node_modules ignore
+node_modules
+
+# system ignore
+.DS_Store
